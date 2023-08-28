@@ -8,11 +8,10 @@
  
 library(tidyverse, warn.conflicts = F, verbose = F)
 
-source("make_ValueTable_wide.R")
-#test_data <- read_csv("../../../grambank/grambank/cldf/values.csv", show_col_types = F) %>% 
-#  make_ValueTable_wide()
-  
-language_level_df <- function(wide_value_table = NULL, method = c( "singular_least_missing_data", "combine_random", "singular_random"), drop_question_marks = F,  language_table_fn = "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
+language_level_df <- function(wide_value_table = NULL, 
+                              method = c( "singular_least_missing_data", "combine_random", "singular_random"), 
+                              drop_question_marks = F,  
+                              language_table_fn = "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
  
 ### WRANGLING LANGUAGE TABLE 
 #  language_table_fn = "https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv"
@@ -28,7 +27,7 @@ if("Language_ID" %in% colnames(language_table)){
     dplyr::select(Language_ID = ID, Language_level_ID = Language_ID)
 }
 
-if("Language_level_ID" %in% colnames(language_table)){
+if("Language_level_ID" %in% colnames(language_table) & "ID" %in% colnames(language_table)){
   language_table   <- language_table %>% 
   dplyr::select(Language_ID = ID, Language_level_ID) 
 }
@@ -106,3 +105,12 @@ levelled_dataset <- dataset %>%
 levelled_dataset
 }
 
+
+
+
+source("make_ValueTable_wide.R")
+test_data <- read_csv("https://raw.githubusercontent.com/grambank/grambank/master/cldf/values.csv", show_col_types = F) %>% 
+  make_ValueTable_wide() 
+
+test_data %>% 
+  language_level_df(method = "singular_least_missing_data") %>% View()
