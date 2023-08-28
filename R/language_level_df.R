@@ -1,23 +1,18 @@
 #' Reduce dialects in dataframe to one per language, and give it the glottocode of the parent that is at level language. Requires a cldf-value table and language-table.
 #'
-#' @param dataset variable name for a wide data frame in the environment. One column needs to be "Language_ID" and all other columns need to be the relevant variables. There should not be columns with Language meta-data like Longitude, Family_name etc. The data-frame needs to be wide, use function make_ValueTable_wide if need be. The function currently does not support datasets where Language_ID is not glottocodes (e.g. WALS).
+#' @param wide_value_table data-frame with wide data from cldf value-table. One column needs to be "Language_ID" and all other columns need to be the relevant variables. There should not be columns with Language meta-data like Longitude, Family_name etc. The data-frame needs to be wide, use function make_ValueTable_wide if need be. The function currently does not support data-sets where Language_ID is not glottocodes (e.g. WALS).
 #' @param method combine_random = combine all datapoints for all the dialects and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects, singular_least_missing_data = choose the dialect which has the most datapoints 
-#' @param language_table a filepath to a csv-sheet of a table with glottocodes and language-level glottocodes of the type LanguageTable in the cldf-ontology. if nothing is specified, it fetches table from glottolog-cldf online on github (i.e. most recent version)
-#' #' @param question_mark_action There is ?-values and missing values. Should they be merged or kept separate
+#' @param language_table a filepath to a csv-sheet of a table with glottocodes and language-level glottocodes of the type LanguageTable in the cldf-ontology. if nothing is specified, it fetches table from glottolog-cldf online on GitHub (v4.8).
+#' #' @param drop_question_marks If true, question marks are converted to missing values.
 #' @return language-leveled dataset
  
-library(tidyverse)
+library(tidyverse, warn.conflicts = F, verbose = F)
 
-make_ValueTable_wide <- function(table = NULL){
-  table %>% 
-dplyr::select(Language_ID, Parameter_ID, Value) %>% 
-  spread(key = Parameter_ID, value = Value, drop = FALSE) 
-}
-
+source("make_ValueTable_wide.R")
 #test_data <- read_csv("../../../grambank/grambank/cldf/values.csv", show_col_types = F) %>% 
 #  make_ValueTable_wide()
   
-language_level_df <- function(dataset = NULL, method = c( "singular_least_missing_data", "combine_random", "singular_random"), drop_question_marks = F,  language_table_fn = "https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv"){
+language_level_df <- function(wide_value_table = NULL, method = c( "singular_least_missing_data", "combine_random", "singular_random"), drop_question_marks = F,  language_table_fn = "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
  
 ### WRANGLING LANGUAGE TABLE 
 #  language_table_fn = "https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv"
