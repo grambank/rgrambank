@@ -3,10 +3,11 @@ library(reshape2)
 
 source("language_level_df.R")
 source("binarise.R")
+source("make_binary_parameters_df.R")
 
 #testing
 
-values_fn <- "../tests/testthat/fixtures/grambank/cldf/values.csv"
+values_fn <- "https://github.com/grambank/grambank/raw/9e0f34194224204fa6a2058a2c12d43923e8715f/cldf/values.csv"
 
 fake_raw_binary_data <- data.frame(
   ID = c("anci1242-GB024a", "anci1242-GB065b"),
@@ -33,7 +34,7 @@ outcome <- binarise(values_fn = values_fn, wide = T, drop_multistate = F, keep_r
   as.vector() %>% 
   .[2:7]
 
-any(outcome == c("3", "1", "1", "3", "1", "1"))
+all(outcome == c("3", "1", "1", "3", "1", "1")) == T
 
 #if we keep the fake raw binary data
 outcome <- binarise(values_fn = values_fn, wide = T, drop_multistate = F, keep_raw_binary = T) %>% 
@@ -43,4 +44,4 @@ outcome <- binarise(values_fn = values_fn, wide = T, drop_multistate = F, keep_r
   as.vector() %>% 
   .[2:7]
 
-any(outcome == c("3", "0", "1", "3", "1", "?"))
+all(outcome == c("3", "0", "1", "3", "1", "?")) == T
