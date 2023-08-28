@@ -16,7 +16,7 @@ language_level_df <- function(wide_value_table = NULL,
 ### WRANGLING LANGUAGE TABLE 
 #  language_table_fn = "https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv"
 # language_table_fn = "../../../grambank/grambank/cldf/languages.csv"  
-# dataset = test_data    
+# wide_value_table = test_data    
   
 language_table <- read_csv(language_table_fn, show_col_types = F) 
 
@@ -40,15 +40,15 @@ language_table   <- language_table %>%
 
 #drop_question_marks", "keep_question_mark
 if(drop_question_marks == T){
-  dataset <- dataset[dataset == "?"] <- NA
+  wide_value_table <- wide_value_table[wide_value_table == "?"] <- NA
   
 }
 
 ## MERGE FOR LEAST MISSING DATA
 if( method == "singular_least_missing_data"){
-  dataset$na_prop <- apply(dplyr::select(dataset, -Language_ID), 1, function(x) mean(is.na(x)))
+  wide_value_table$na_prop <- apply(dplyr::select(wide_value_table, -Language_ID), 1, function(x) mean(is.na(x)))
 
-levelled_dataset <- dataset %>% 
+levelled_wide_value_table <- wide_value_table %>% 
   left_join(language_table, by = "Language_ID") %>% 
   arrange(na_prop) %>% 
    distinct(Language_level_ID, .keep_all = T) %>% 
@@ -63,11 +63,11 @@ if( method == "combine_random"){
 #in order to do this, we need to first make it long again.
   
 # making vector of columns to make long
-    cols <- dataset %>% 
+    cols <- wide_value_table %>% 
     dplyr::select(-Language_ID) %>% 
     colnames()
   
-dataset_long <- dataset %>% 
+wide_value_table_long <- wide_value_table %>% 
     pivot_longer(names_to = "Parameter_ID", values_to = "Value", cols = all_of(cols)) %>% 
     filter(!is.na(Value)) %>% 
     left_join(language_table, by = "Language_ID") %>% 
@@ -77,15 +77,15 @@ dataset_long <- dataset %>%
   dplyr::select(-Language_ID)
 
 #it's faster if we do slice_sample (choose randomly) only on those that have more than 1 value per language than if we do it on all.
-dataset_long_n_greater_than_1 <- dataset_long %>% 
+wide_value_table_long_n_greater_than_1 <- wide_value_table_long %>% 
   filter(n > 1) %>% 
   group_by(Language_level_ID, Parameter_ID) %>% 
   slice_sample(n = 1) %>% 
   ungroup() 
 
-levelled_dataset <- dataset_long %>% 
+levelled_wide_value_table <- wide_value_table_long %>% 
   filter(n == 1) %>% 
-  full_join(dataset_long_n_greater_than_1 , by = c("Parameter_ID", "Value", "Language_level_ID", "n"))  %>% 
+  full_join(wide_value_table_long_n_greater_than_1 , by = c("Parameter_ID", "Value", "Language_level_ID", "n"))  %>% 
   mutate(Language_ID = Language_level_ID) %>% 
   dplyr::select(-Language_level_ID, -n)  %>% 
   make_ValueTable_wide()
@@ -93,7 +93,7 @@ levelled_dataset <- dataset_long %>%
 
 # MERGE BY PICKING DIALECTS WHOLLY AT RANDOM
 if( method == "singular_random"){
-levelled_dataset <- dataset %>% 
+levelled_wide_value_table <- wide_value_table %>% 
     left_join(language_table, by = "Language_ID") %>% 
     group_by(Language_level_ID) %>% 
     slice_sample(n = 1) %>% 
@@ -102,15 +102,8 @@ levelled_dataset <- dataset %>%
     dplyr::select(-Language_level_ID)  
 }
 
-levelled_dataset
+levelled_wide_value_table
 }
 
 
 
-
-source("make_ValueTable_wide.R")
-test_data <- read_csv("https://raw.githubusercontent.com/grambank/grambank/master/cldf/values.csv", show_col_types = F) %>% 
-  make_ValueTable_wide() 
-
-test_data %>% 
-  language_level_df(method = "singular_least_missing_data") %>% View()
