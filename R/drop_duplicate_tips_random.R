@@ -4,14 +4,14 @@
 #' @param merge_dialects a logical specifying whether to replace dialect tip labels with the glottocode of the language that is their parent, and then drop all but one
 #' @param random_seed integer specifying random seed
 #' @param LanguageTable data-frame of a cldf LanguageTable with columns for glottocodes per languoid and dialects language parent glottocode. If merge_dialects is set to TRUE, a LanguageTable is necessary. If NULL then Glottolog v4.8 is fetched from the internet and used.
-#' @param trim_tip_label_to_first_eight a logical specifying whether we should trim the tip label to the first 8 characters. If the tip labels contain more than just glottocodes, it is necessary to trim away what is not glottocodes. If set to TRUE, only the first 8 characters are retained. This is necessary for the EDGE-trees as they contain names as well (e.g. "bamu1257_Bamu_Kiwaian").
+#' @param trim_tip_label_to_first_eight a logical specifying whether we should trim the tip label to the first 8 characters. If the tip labels contain more than just glottocodes, it is necessary to trim away what is not glottocodes. If set to TRUE, only the first 8 characters are retained. This is necessary for the EDGE-trees as they contain names as well (e.g. "bamu1257_Bamu_Kiwaian"). If the tip labels only consist of glottocodes, this parameter can be set to TRUE or FALSE without difference.
 #'
 
 drop_duplicate_tips_random <- function(tree = NULL,
                                       merge_dialects = TRUE,
                                       random_seed = NULL,
                                       LanguageTable = "Glottolog_4.8",
-                                      trim_tip_label_to_first_eight = FALSE){
+                                      trim_tip_label_to_first_eight = TRUE){
 
     #There is a random element in the duplicate dropping. If you want it to give the same result everytime, set a random seed.
 if(is.numeric(random_seed)){
