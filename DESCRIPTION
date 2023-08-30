@@ -1,8 +1,8 @@
 Package: rgrambank
-Title: What the Package Does (One Line, Title Case)
+Title: Package for analysing grambank
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Simon", "Greenhill", , "simon@simon.net.nz", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
 License: Apache License (>= 2)
