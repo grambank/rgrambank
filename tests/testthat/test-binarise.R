@@ -4,8 +4,9 @@ test_that("raw binarised features are being overwritten when keep_raw_binary is 
     library(reshape2)
     library(dplyr)
     library(readr)
+    library(tidyr)
 
-    outcome <- binarise(ValueTable = read_csv("tests/testthat/fixtures/values_with_raw_fake_binary.csv", show_col_types = FALSE), wide = TRUE,
+    outcome <- binarise(ValueTable = read_csv("fixtures/values_with_raw_fake_binary.csv", show_col_types = FALSE), wide = TRUE,
                         drop_multistate = FALSE,
                         keep_raw_binary = FALSE) %>%
         dplyr::select(Language_ID, GB024, GB024a, GB024b, GB065, GB065a, GB065b) %>%
@@ -23,8 +24,9 @@ test_that("raw binarised features are not being overwritten when keep_raw_binary
     library(reshape2)
     library(dplyr)
     library(readr)
+    library(tidyr)
 
-    outcome <- binarise(ValueTable = read_csv("tests/testthat/fixtures/values_with_raw_fake_binary.csv", show_col_types = FALSE), wide = T,
+    outcome <- binarise(ValueTable = read_csv("fixtures/values_with_raw_fake_binary.csv", show_col_types = FALSE), wide = T,
                         drop_multistate = F,
                         keep_raw_binary = T) %>%
         dplyr::select(Language_ID, GB024, GB024a, GB024b, GB065, GB065a, GB065b) %>%
