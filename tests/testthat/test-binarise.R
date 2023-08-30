@@ -1,12 +1,8 @@
+#testing that the function binarise behaves as expected.
+
 library(reshape2)
 library(dplyr)
 library(readr)
-library(testthat)
-
-source("R/language_level_df.R")
-source("R/binarise.R")
-source("R/make_binary_parameters_df.R")
-
 
 #reading in a Grambank value table from the internet and tacking on rows with already binarised features. This allows us to test handling these kinds of features even though they do not occur in Grambank release v1.90
 
@@ -24,18 +20,18 @@ fake_raw_binary_data <- data.frame(
     Coders = c("HS", "HS")
 )
 
-read_csv(values_fn_full, show_col_types = F) %>%
+read_csv(values_fn_full, show_col_types = FALSE) %>%
     filter(Language_ID == "anci1242"|
                Language_ID == "samo1305" ) %>%
     full_join(fake_raw_binary_data, by = join_by(ID, Language_ID, Parameter_ID, Value, Code_ID, Comment, Source, Source_comment, Coders)) %>%
     write_csv("tests/testthat/fixtures/values_with_raw_fake_binary.csv")
 
 values_fn <- "tests/testthat/fixtures/values_with_raw_fake_binary.csv"
-ValueTable <- read_csv(values_fn, show_col_types = F)
+ValueTable <- read_csv(values_fn, show_col_types = FALSE)
 
-test_that("binarised features are not being overwritten", {
-    outcome <- binarise(ValueTable = ValueTable, wide = T, drop_multistate = F,
-                        keep_raw_binary = F) %>%
+test_that("raw binarised features are being overwritten when keep_raw_binary is set to FALSE", {
+    outcome <- binarise(ValueTable = ValueTable, wide = TRUE, drop_multistate = FALSE,
+                        keep_raw_binary = FALSE) %>%
         dplyr::select(Language_ID, GB024, GB024a, GB024b, GB065, GB065a, GB065b) %>%
         filter(Language_ID == "anci1242") %>%
         as.matrix() %>%
@@ -44,35 +40,18 @@ test_that("binarised features are not being overwritten", {
 
     expected <- c("3", "1", "1", "3", "1", "1")
     expect_equal(outcome, expected)
-
-
-
-    outcome <- %>%
-
-
-
-
-
-
-
-
-
-
     })
 
 
-#testing
+test_that("raw binarised features are not being overwritten when keep_raw_binary is set to TRUE", {
+    outcome <- binarise(values_fn = values_fn, wide = T, drop_multistate = F,
+                        keep_raw_binary = T) %>%
+        dplyr::select(Language_ID, GB024, GB024a, GB024b, GB065, GB065a, GB065b) %>%
+        filter(Language_ID == "anci1242") %>%
+        as.matrix() %>%
+        as.vector() %>%
+        .[2:7]
 
-
-
-all(outcome ==  == T
-
-#if we keep the fake raw binary data
-outcome <- binarise(values_fn = values_fn, wide = T, drop_multistate = F, keep_raw_binary = T) %>%
-  dplyr::select(Language_ID, GB024, GB024a, GB024b, GB065, GB065a, GB065b) %>%
-  filter(Language_ID == "anci1242") %>%
-  as.matrix() %>%
-  as.vector() %>%
-  .[2:7]
-
-all(outcome == c("3", "0", "1", "3", "1", "?")) == T
+    expected <- c("3", "0", "1", "3", "1", "?")
+    expect_equal(outcome, expected)
+})
