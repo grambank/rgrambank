@@ -1,5 +1,4 @@
 library(rgrambank)
-library(DBI)
 
 
 test_that("reading tables works", {
