@@ -3,7 +3,7 @@
 
 
 make_binary_parameters_df <-function(){
-  tibble(
+   data.frame(
     ID = c(
       "GB024a", "GB024b",
       "GB025a", "GB025b",
@@ -20,10 +20,10 @@ make_binary_parameters_df <-function(){
       "GB193","GB193",
       "GB203", "GB203"
     ),
-    
+
     Grambank_ID_desc = c(
       "GB024a NUMOrder_Num-N",
-      "GB024b NUMOrder_N-Num",  
+      "GB024b NUMOrder_N-Num",
       "GB025a DEMOrder_Dem-N",
       "GB025b DEMOrder_N-Dem",
       "GB065a POSSOrder_PSR-PSD",
@@ -35,7 +35,7 @@ make_binary_parameters_df <-function(){
       "GB203a UQOrder_UQ-N",
       "GB203b UQOrder_N-UQ"
     ),
-    Name = c("Is the order of the numeral and noun Num-N?", 
+    Name = c("Is the order of the numeral and noun Num-N?",
              "Is the order of the numeral and noun N-Num?",
              "Is the order of the adnominal demonstrative and noun Dem-N?",
              "Is the order of the adnominal demonstrative and noun N-Dem?",
@@ -47,7 +47,7 @@ make_binary_parameters_df <-function(){
              "Is the order of the adnominal property word (ANM) and noun N-ANM?",
              "Is the order of the adnominal collective universal quantifier (UQ) and noun UQ-N?",
              "Is the order of the adnominal collective universal quantifier (UQ) and noun N-QU?" ),
-    
+
     `OV vs VO types (excl affixes)`= c(
       "OV",
       "VO",
