@@ -49,8 +49,11 @@ if( method == "singular_least_missing_data"){
 
 levelled_ValueTable <- ValueTable %>%
   left_join(LanguageTable, by = "Language_ID") %>%
-  arrange(na_prop) %>%
-   distinct(Language_level_ID, .keep_all = TRUE) %>%
+  filter(!is.na(Value)) %>%
+    group_by(Language_ID) %>%
+    mutate(n = n()) %>%
+    arrange(desc(n)) %>%
+   distinct(Language_level_ID, Parameter_ID, .keep_all = TRUE) %>%
   mutate(Language_ID = Language_level_ID) %>%
   dplyr::select(-Language_level_ID)
 }
