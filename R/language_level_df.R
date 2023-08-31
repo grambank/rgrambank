@@ -9,12 +9,10 @@
 
 language_level_df <- function(ValueTable = NULL,
                               method = c( "singular_least_missing_data", "combine_random", "singular_random"),
-                              drop_question_marks = FALSE,
+                              drop_question_marks = TRUE,
                               LanguageTable_fn = "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
 
 ### WRANGLING LANGUAGE TABLE
-#  LanguageTable_fn = "https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv"
-# LanguageTable_fn = "../../../grambank/grambank/cldf/languages.csv"
 # ValueTable = read_csv("https://github.com/grambank/grambank/raw/master/cldf/values.csv")
 
 if(length(method) != 1){
@@ -51,7 +49,6 @@ if(drop_question_marks == T){
 
 ## MERGE FOR LEAST MISSING DATA
 if( method == "singular_least_missing_data"){
-  ValueTable$na_prop <- apply(dplyr::select(ValueTable, -Language_ID), 1, function(x) mean(is.na(x)))
 
 levelled_ValueTable <- ValueTable %>%
   left_join(LanguageTable, by = "Language_ID") %>%
