@@ -58,7 +58,8 @@ if("Language_level_ID" %in% colnames(LanguageTable) & "ID" %in% colnames(Languag
 
 # if there is a missing language level ID, which it can be in some datasets where only dialects get language level IDs and languages and families don't, then replace those with the content in the Language_ID column.
 LanguageTable   <- LanguageTable %>%
-  dplyr::mutate(Language_level_ID = ifelse(is.na(Language_level_ID), Language_ID, Language_level_ID))
+  dplyr::mutate(Language_level_ID = ifelse(is.na(Language_level_ID)|
+                                               Language_level_ID == "", Language_ID, Language_level_ID))
 
 ## QUESTION MARK ACTION
 
