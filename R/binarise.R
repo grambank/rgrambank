@@ -1,12 +1,16 @@
 
+ValueTable <- read_csv("tests/testthat/fixtures/testdata/values.csv")
+
 #GB024 multistate 1; Num-N; 2: N-Num; 3: both.
 binarise_gb024_to_gb024a <- function(values) {
-    dplyr::case_match(values, "1" ~ "1", "2" ~ "0", "3" ~ "1", "?" ~ "?")
+    dplyr::case_match(values, "1" ~ "1", "2" ~ "0", "3" ~ "1", "?" ~ "?",  NA ~ NA)
 }
 
 binarise_gb024_to_gb024b <- function(values) {
-    dplyr::case_match(values, "2" ~ "1", "3" ~ "1", "1" ~ "0", "?" ~ "?")
+    dplyr::case_match(values, "2" ~ "1", "3" ~ "1", "1" ~ "0", "?" ~ "?", NA ~ NA)
 }
+
+
 
 
 #' Makes multi-state Grambank-features binary in the appropriate manner.
