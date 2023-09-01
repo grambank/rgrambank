@@ -44,14 +44,20 @@ if __name__ == '__main__':
     #
     # put('languages.csv', keep)
 
-    tally = Counter()
-    for row in get('values.csv'):
-        if row['Language_ID'] in language_ids:
-            row['Source'] = 'testsource'
-            keep.append(row)
-            tally[row['Language_ID']] += 1
-
-    put('values.csv', keep)
+    # tally = Counter()
+    # for row in get('values.csv'):
+    #     if row['Language_ID'] in language_ids:
+    #         row['Source'] = 'testsource'
+    #         keep.append(row)
+    #         tally[row['Language_ID']] += 1
+    #
+    # put('values.csv', keep)
 
     # for t in tally.most_common():
     #     print(t)
+    
+    keep = []
+    for row in get('parameters.csv'):
+        row['Description'] = ""
+        keep.append(row)
+    put('parameters.csv', keep)
