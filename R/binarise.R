@@ -1,6 +1,21 @@
 
-ValueTable <- read_csv("tests/testthat/fixtures/testdata/values.csv")
+ValueTable <- read_csv("tests/testthat/fixtures/values_with_raw_fake_binary.csv")
 
+binary_parameters <- c(
+    "GB024a", "GB024b",
+    "GB025a", "GB025b",
+    "GB065a", "GB065b",
+    "GB130a","GB130b",
+    "GB193a","GB193b",
+    "GB203a", "GB203b")
+
+multistate_parameters <- c(
+                          "GB024",
+                          "GB025",
+                          "GB065",
+                          "GB130",
+                          "GB193",
+                          "GB203")
 
 # functions for turning 4 of the multistate features into binarised version. These features don't have the 0 option.
 #GB024 multistate 1; Num-N; 2: N-Num; 3: both.
@@ -15,7 +30,9 @@ binarise_GBXXX_to_GBXXXb_without_zero <- function(values) {
     dplyr::case_match(values, "1" ~ "0", "2" ~ "1", "3" ~ "1",  "?" ~ "?", NA ~ NA)
 }
 
-# functions for turning 4 of the multistate features into binarised version. These features have the 0 option.
+# functions for turning 2 of the multistate features into binarised version. These features have the 0 option.
+# we can just use this function for all multistate, since the other ones shouldn't legally have 0's in them at all. However, to be conservative I (Hedvig) separated them out so that if anything weird happens and somehow GB065 has a 0 value, the code breaks rather than does the wrong thing.
+
 #GB193 multistate 0: they cannot be used attributively, 1: ANM-N; 2: N-ANM; 3: both.
 #GB203 multistate 0: no UQ, 1: UQ-N; 2: N-UQ; 3: both.
 binarise_GBXXX_to_GBXXXa_with_zero <- function(values) {
@@ -25,9 +42,6 @@ binarise_GBXXX_to_GBXXXa_with_zero <- function(values) {
 binarise_GBXXX_to_GBXXXb_with_zero <- function(values) {
     dplyr::case_match(values, "0"~"0", "1" ~ "0", "2" ~ "1", "3" ~ "1",  "?" ~ "?", NA ~ NA)
 }
-
-
-
 
 gb_recode <- function(ValueTable, oldvariable, newvariable, func) {
     ValueTable %>% dplyr::filter(Parameter_ID==oldvariable) %>%
@@ -39,8 +53,6 @@ gb_recode <- function(ValueTable, oldvariable, newvariable, func) {
         mutate(Code_ID = paste0(Parameter_ID, "-", Value)) %>%
         rbind(ValueTable)
 }
-
-ValueTable <- gb_recode(ValueTable, 'GB024', 'GB024a', binarise_GBXXX_to_GBXXXa_without_zero)
 
 
 #' Makes multi-state Grambank-features binary in the appropriate manner.
@@ -57,197 +69,50 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
     # we call these "raw binary". users can choose to drop these and only used derived, or use a mix,
     if (keep_raw_binary == FALSE) {
         ValueTable <- ValueTable %>%
-            dplyr::anti_join(dplyr::select(binary_parameters_df, Parameter_ID = ID), by = dplyr::join_by(Parameter_ID))
+            dplyr::filter(!(Parameter_ID %in% binary_parameters))
+
     }
 
-    # making the long table wide, it's easier for the binarisation. The table can be made long again with
-    # comments etc later.
-    wide_values <- as.grambank.wide(ValueTable)
+    if (keep_raw_binary == TRUE) {
+        ValueTable_raw_binary <- ValueTable %>%
+            dplyr::filter(Parameter_ID %in% binary_parameters)
 
-    #if the binary raw feature isn't there, make a col with just NA values to start with. This will allow us to       blend raw and derived binary data later.
-    for (binary_col in binary_parameters_df$ID) {
-        if(!(binary_col %in% colnames(wide_values))){
-            wide_values[[paste0(binary_col)]] <- rep(NA, nrow(wide_values))
+    }
+
+
+
+# BINARISING MULTISTATE FEATUYES
+
+    ValueTable <- gb_recode(ValueTable, 'GB024', 'GB024a', binarise_GBXXX_to_GBXXXa_without_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB024', 'GB024b', binarise_GBXXX_to_GBXXXb_without_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB025', 'GB025a', binarise_GBXXX_to_GBXXXa_without_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB025', 'GB025b', binarise_GBXXX_to_GBXXXb_without_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB065', 'GB065a', binarise_GBXXX_to_GBXXXa_without_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB065', 'GB065b', binarise_GBXXX_to_GBXXXb_without_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB130', 'GB130a', binarise_GBXXX_to_GBXXXa_without_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB130', 'GB130b', binarise_GBXXX_to_GBXXXb_without_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB193', 'GB193a', binarise_GBXXX_to_GBXXXa_with_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB193', 'GB193b', binarise_GBXXX_to_GBXXXb_with_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB203', 'GB203a', binarise_GBXXX_to_GBXXXa_with_zero)
+    ValueTable <- gb_recode(ValueTable, 'GB203', 'GB203b', binarise_GBXXX_to_GBXXXb_with_zero)
+
+
+
+    if (keep_raw_binary == TRUE) {
+        ValueTable <- ValueTable %>%
+            dplyr::anti_join(dplyr::select(ValueTable_raw_binary,
+                                           Language_ID, Parameter_ID),
+                             by = join_by(Language_ID, Parameter_ID)) %>%
+            full_join(ValueTable_raw_binary, by = join_by(ID, Language_ID, Parameter_ID, Value, Code_ID, Comment, Source, Source_comment, Coders))
+
+    }
+        if(drop_multistate == T) {
+        ValueTable <- ValueTable %>%
+            dplyr::filter(!(Parameter_ID %in% multistate_parameters))
+
         }
-    }
 
-    ######### DERIVING binary values from multistate ones
-    wide_values$GB024a <- binarise_gb024_to_gb024a(wide_values$GB024)
-    wide_values$GB024b <- binarise_gb024_to_gb024b(wide_values$GB024)
-
-    # are we deliberately using dplyr::if_else AND base::ifelse?
-
-    if("GB025" %in% colnames(wide_values)){
-      wide_values$GB025a <- dplyr::if_else(wide_values$GB025 == "1"|
-                                      wide_values$GB025 == "3"&
-                                      is.na(wide_values$GB025a), "1", ifelse(wide_values$GB025 == "2", "0", wide_values$GB025a))
-
-      wide_values$GB025a <- dplyr::if_else(wide_values$GB025 == "?"&
-                                      is.na(wide_values$GB025a), "?", wide_values$GB025a)
-
-
-      wide_values$GB025b <- ifelse(wide_values$GB025 == "2"|
-                                     wide_values$GB025 == "3"&
-                                     is.na(wide_values$GB025b), "1", ifelse(wide_values$GB025 == "1", "0", wide_values$GB025b))
-
-      wide_values$GB025b <- dplyr::if_else(wide_values$GB025 == "?"&
-                                      is.na(wide_values$GB025b), "?", wide_values$GB025b)
-
-    }
-    if("GB065" %in% colnames(wide_values)){
-      wide_values$GB065a <- dplyr::if_else(wide_values$GB065 == "1"|
-                                      wide_values$GB065 == "3"&
-                                      is.na(wide_values$GB065a), "1", ifelse(wide_values$GB065 == "2", "0", wide_values$GB065a))
-
-      wide_values$GB065a <- dplyr::if_else(wide_values$GB065 == "?"&
-                                      is.na(wide_values$GB065a), "?", wide_values$GB065a)
-
-
-      wide_values$GB065b <- dplyr::if_else(wide_values$GB065 == "2"|
-                                      wide_values$GB065 == "3" &
-                                      is.na(wide_values$GB065b), "1", ifelse(wide_values$GB065 == "1", "0", wide_values$GB065b))
-
-      wide_values$GB065b <- dplyr::if_else(wide_values$GB065 == "?" &
-                                      is.na(wide_values$GB065b), "?", wide_values$GB065b)
-
-    }
-
-    #GB130 multistate 1: SV; 2: VS; 3: both
-    if("GB130" %in% colnames(wide_values)){
-      wide_values$GB130a <- dplyr::if_else(wide_values$GB130 == "1"|
-                                      wide_values$GB130 == "3"&
-                                      is.na(wide_values$GB130a), "1", ifelse(wide_values$GB130 == "2", "0", wide_values$GB130a))
-
-      wide_values$GB130a <- dplyr::if_else(wide_values$GB130 == "?"&
-                                      is.na(wide_values$GB130a), "?", wide_values$GB130a)
-
-
-      wide_values$GB130b <- dplyr::if_else(wide_values$GB130 == "2"|
-                                      wide_values$GB130 == "3" &
-                                      is.na(wide_values$GB130b), "1", ifelse(wide_values$GB130 == "1", "0", wide_values$GB130b))
-
-      wide_values$GB130b <- dplyr::if_else(wide_values$GB130 == "?"&
-                                      is.na(wide_values$GB130b), "?", wide_values$GB130b)
-
-    }
-
-    if("GB193" %in% colnames(wide_values)){
-      wide_values$GB193a <- dplyr::if_else(wide_values$GB193 == "1"|
-                                      wide_values$GB193 == "3"&
-                                      is.na(wide_values$GB193a), "1", ifelse(wide_values$GB193 == "2"|wide_values$GB193 == "0", "0", wide_values$GB193a))
-
-      wide_values$GB193a <- dplyr::if_else(wide_values$GB193 == "?"&
-                                      is.na(wide_values$GB193a), "?", wide_values$GB193a)
-
-      wide_values$GB193b <- dplyr::if_else(wide_values$GB193 == "2"|
-                                      wide_values$GB193 == "3"&
-                                      is.na(wide_values$GB193b), "1", ifelse(wide_values$GB193 == "1"|wide_values$GB193 == "0", "0", wide_values$GB193b))
-
-      wide_values$GB193b <- dplyr::if_else(wide_values$GB193 == "?"&
-                                      is.na(wide_values$GB193b), "?", wide_values$GB193b)
-
-    }
-    if("GB203" %in% colnames(wide_values)){
-      wide_values$GB203a <- dplyr::if_else(wide_values$GB203 == "1"|
-                                      wide_values$GB203 == "3"&
-                                      is.na(wide_values$GB203a), "1", ifelse(wide_values$GB203 == "2"|wide_values$GB203 == "0", "0", wide_values$GB203a))
-
-      wide_values$GB203a <- dplyr::if_else(wide_values$GB203 == "?"&
-                                      is.na(wide_values$GB203a), "?", wide_values$GB203a)
-
-
-      wide_values$GB203b <- dplyr::if_else(wide_values$GB203 == "2"|
-                                      wide_values$GB203 == "3"&
-                                      is.na(wide_values$GB203b), "1", ifelse(wide_values$GB203 == "1"|wide_values$GB203 == "0", "0", wide_values$GB203b))
-
-      wide_values$GB203b <- dplyr::if_else(wide_values$GB203 == "?"&
-                                      is.na(wide_values$GB203b), "?", wide_values$GB203b)
-
-    }
-
-
-    if(drop_multistate == T) {
-        wide_values <- wide_values %>%
-        dplyr::select(-parameters_binary_df$ID_multistate_parent)
-
-    }
-
+export(ValueTable)
 }
 
-
-
-binary_parameters_df <- data.frame(
-    ID = c(
-        "GB024a", "GB024b",
-        "GB025a", "GB025b",
-        "GB065a", "GB065b",
-        "GB130a","GB130b",
-        "GB193a","GB193b",
-        "GB203a", "GB203b"
-    ),
-    ID_multistate_parent = c(
-        "GB024", "GB024",
-        "GB025", "GB025",
-        "GB065", "GB065",
-        "GB130","GB130",
-        "GB193","GB193",
-        "GB203", "GB203"
-    ),
-    Grambank_ID_desc = c(
-        "GB024a NUMOrder_Num-N",
-        "GB024b NUMOrder_N-Num",
-        "GB025a DEMOrder_Dem-N",
-        "GB025b DEMOrder_N-Dem",
-        "GB065a POSSOrder_PSR-PSD",
-        "GB065b POSSOrder_PSD-PSR",
-        "GB130a IntransOrder_SV",
-        "GB130b IntransOrder_VS",
-        "GB193a ANMOrder_ANM-N",
-        "GB193b ANMOrder_N-ANM",
-        "GB203a UQOrder_UQ-N",
-        "GB203b UQOrder_N-UQ"
-    ),
-    Name = c(
-        "Is the order of the numeral and noun Num-N?",
-        "Is the order of the numeral and noun N-Num?",
-        "Is the order of the adnominal demonstrative and noun Dem-N?",
-        "Is the order of the adnominal demonstrative and noun N-Dem?",
-        "Is the pragmatically unmarked order of adnominal possessor noun and possessed noun PSR-PSD?",
-        "Is the pragmatically unmarked order of adnominal possessor noun and possessed noun PSD-PSR?",
-        "Is the pragmatically unmarked order of S and V in intransitive clauses S-V?",
-        "Is the pragmatically unmarked order of S and V in intransitive clauses V-S?",
-        "Is the order of the adnominal property word (ANM) and noun ANM-N?",
-        "Is the order of the adnominal property word (ANM) and noun N-ANM?",
-        "Is the order of the adnominal collective universal quantifier (UQ) and noun UQ-N?",
-        "Is the order of the adnominal collective universal quantifier (UQ) and noun N-QU?"
-    ),
-    `OV vs VO types (excl affixes)`= c(
-        "OV",
-        "VO",
-        "OV",
-        "VO",
-        "OV",
-        "VO",
-        NA,
-        NA,
-        "OV",
-        "VO",
-        "OV",
-        "VO"
-    ),
-    `OV VO score for counting`= c(
-        0,
-        1,
-        0,
-        1,
-        0,
-        1,
-        NA,
-        NA,
-        0,
-        1,
-        0,
-        1
-    )
-)
 
