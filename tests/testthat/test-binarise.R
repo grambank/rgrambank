@@ -49,18 +49,23 @@ test_that("raw binarised features are not being overwritten when keep_raw_binary
 })
 
 
-skip()
 test_that("drop_multistate drops multistate variables as required", {
     outcome <- binarise(
         ValueTable = readr::read_csv("fixtures/values_with_raw_fake_binary.csv",
                                      show_col_types = FALSE),
-        drop_multistate = FALSE,
+        drop_multistate = TRUE,
         keep_raw_binary = TRUE) %>%
         dplyr::filter(Language_ID == "anci1242") %>%
-        dplyr::filter(Parameter_ID %in% c("GB024", "GB024a", "GB024b", "GB065", "GB065a", "GB065b")) %>% View()
-    .$Value
+        dplyr::filter(Parameter_ID %in% c(
+            "GB024",
+            "GB025",
+            "GB065",
+            "GB130",
+            "GB193",
+            "GB203")) %>%
+        nrow()
 
-    expected <- c("3", "0", "1", "3", "1", "?")
+    expected <- c(0)
 
-    expect_equal(TRUE, FALSE)  # TODO
+    expect_equal(outcome, expected)  # TODO
 })
