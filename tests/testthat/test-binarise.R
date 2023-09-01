@@ -1,11 +1,11 @@
 #testing that the function binarise behaves as expected.
 
-test_that("binarise_gb024_to_gb024a", {
-    expect_equal(binarise_gb024_to_gb024a(c("1", "2", "3", "?", NA)), c("1", "0", "1", "?", NA))
+test_that("binarise_GBXXX_to_GBXXXa_without_zero", {
+    expect_equal(binarise_GBXXX_to_GBXXXa_without_zero(c("1", "2", "3", "?", NA)), c("1", "0", "1", "?", NA))
 })
 
-test_that("binarise_gb024_to_gb024b", {
-    expect_equal(binarise_gb024_to_gb024b(c("1", "2", "3", "?", NA)), c("0", "1", "1", "?", NA))
+test_that("binarise_GBXXX_to_GBXXXb_without_zero", {
+    expect_equal(binarise_GBXXX_to_GBXXXb_without_zero(c("1", "2", "3", "?", NA)), c("0", "1", "1", "?", NA))
 })
 
 
