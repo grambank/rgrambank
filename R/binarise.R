@@ -1,11 +1,20 @@
+
+#GB024 multistate 1; Num-N; 2: N-Num; 3: both.
+binarise_gb024_to_gb024a <- function(values) {
+    dplyr::case_match(values, "1" ~ "1", "2" ~ "0", "3" ~ "1", "?" ~ "?")
+}
+
+binarise_gb024_to_gb024b <- function(values) {
+    dplyr::case_match(values, "2" ~ "1", "3" ~ "1", "1" ~ "0", "?" ~ "?")
+}
+
+
 #' Makes multi-state Grambank-features binary in the appropriate manner.
 #'
 #' @param ValueTable data frame of the ValueTable from grambank-cldf (long).
 #' @param drop_multistate If TRUE,the multistate parent features of the binarised features are kept. If FALSE, they are dropped from the resulting data-frame.
 #' @param keep_raw_binary If TRUE and if the value table already contains some binarised features, they are kept. If false, they are overriden and replaced by values derived from the multistate features.
 #' @return Data-frame (long or wide depending on 'wide' argument)
-
-##############
 binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, keep_raw_binary = TRUE){
     if (!inherits(ValueTable, "data.frame")) stop("'ValueTable' must be a dataframe.")
 
@@ -28,25 +37,8 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
     }
     
     ######### DERIVING binary values from multistate ones
-        if("GB024" %in% colnames(wide_values)){
-      wide_values$GB024a <- if_else(wide_values$GB024 == "1"|
-                                      wide_values$GB024 == "3" &
-                                      is.na(wide_values$GB024a), "1", ifelse(wide_values$GB024 == "2", "0", wide_values$GB024a))
-
-
-      wide_values$GB024a <- if_else(wide_values$GB024 == "?" &
-                                      is.na(wide_values$GB024a), "?", wide_values$GB024a)
-
-
-      wide_values$GB024b <- if_else(wide_values$GB024 == "2"|
-                                      wide_values$GB024 == "3" &
-                                      is.na(wide_values$GB024b)
-                                    , "1", ifelse(wide_values$GB024 == "1", "0", wide_values$GB024b))
-
-      wide_values$GB024b <- if_else(wide_values$GB024 == "?" &
-                                      is.na(wide_values$GB024b), "?", wide_values$GB024b)
-
-      }
+    wide_values$GB024a <- binarise_gb024_to_gb024a(wide_values$GB024)
+    wide_values$GB024b <- binarise_gb024_to_gb024b(wide_values$GB024)
 
     #GB025 multistate 1: Dem-N; 2: N-Dem; 3: both.
     if("GB025" %in% colnames(wide_values)){
@@ -226,5 +218,4 @@ binary_parameters_df <- data.frame(
         1
     )
 )
-
 
