@@ -6,14 +6,13 @@
 
 ## Hedvig response: I disagree. I believe that this function should take dataframes of ValueTables, and the user can give those to the function however they'd like. I think requiring a rcldf object class is unnecessary, especially since it's possible to point to a df within that object (gb$tables$ValueTable). I do not see what the advantage would be. If you could explain that, I'll consider again. I spoke to Angela, and she agrees with me. I haven't heard back from the other future users on this specific point.
 
-
-#' Reduce dialects in dataframe to one per language, and give it the glottocode of the parent that is at level language. Requires a cldf-value table and language-table.
+#' Reduce dialects and other duplicates which have the same glottcode in dataframe to one per language, and give it the glottocode of the parent that is at level language. Requires a cldf-value table and language-table. Simplifies combination of dataset.
 #'
-#' @param ValueTable data-frame with wide data from cldf value-table. One column needs to be "Language_ID" and all other columns need to be the relevant variables. There should not be columns with Language meta-data like Longitude, Family_name etc. The data-frame needs to be wide, use function make_ValueTable_wide if need be. The function currently does not support data-sets where Language_ID is not glottocodes (e.g. WALS).
-#' @param method combine_random = combine all datapoints for all the dialects and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects, singular_least_missing_data = choose the dialect which has the most datapoints
-#' @param LanguageTable character vector denoting a filepath to a csv-sheet of a table with glottocodes and language-level glottocodes of the type LanguageTable in the cldf-ontology. If NULL, it fetches table from glottolog-cldf online on GitHub (v4.8).
-#' #' @param drop_question_marks logical indicating wether to turn ? into missing values (NA) or not.
-#' @return language-leveled dataset
+#' @param ValueTable data-frame, long format. ValueTable from cldf.
+#' @param method character vector, choice between "singular_least_missing_data", "combine_random", "singular_random". combine_random = combine all datapoints for all the dialects/duplicates and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects/duplicates, singular_least_missing_data = choose the dialect/duplicate which has the most datapoints.
+#' @param LanguageTable data-frame of a cldf LanguageTable. Needs to have columns Glottocode and Language_ID or Language_level_ID. If not otherwise specified, it fetches the LanguageTable from glottolog-cldf online on GitHub (v4.8).
+#' #' @param drop_question_marks logical vector indicating wether to turn ? into missing values (NA) or not.
+#' @return data-frame of ValueTable without duplicates
 #' @export
 
 # TODO SJG: can we fix the indentation here?
@@ -23,7 +22,7 @@
 language_level_df <- function(ValueTable = NULL,
                               method = c( "singular_least_missing_data", "combine_random", "singular_random"),
                               drop_question_marks = TRUE,
-                              LanguageTable_fn = "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
+                              LanguageTable = "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
 
     if(length(method) != 1 & !(method %in% c( "singular_least_missing_data",
                                               "combine_random", "singular_random"))){
@@ -41,7 +40,9 @@ language_level_df <- function(ValueTable = NULL,
         stop("Invalid table format - ValueTable needs to have columns Language_ID/Parameter_ID/Value")
     }
 
-LanguageTable <- read.delim(LanguageTable_fn, sep = ",")
+if(LanguageTable == "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
+LanguageTable <- read.delim(LanguageTable, sep = ",")
+}
 
 # The language level ID column is named different in different, CLDF datasets.
 # setting them to the same
