@@ -64,9 +64,9 @@ gb_recode <- function(ValueTable, oldvariable, newvariable, func) {
 #' @param ValueTable data frame of the ValueTable from grambank-cldf (long).
 #' @param drop_multistate If TRUE,the multistate parent features of the binarised features are kept. If FALSE, they are dropped from the resulting data-frame.
 #' @param keep_raw_binary If TRUE and if the value table already contains some binarised features, they are kept. If false, they are overriden and replaced by values derived from the multistate features.
-#' @return Data-frame (long or wide depending on 'wide' argument)
+#' @return Data-frame (long ValueTable)
 #' @export
-binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, keep_raw_binary = TRUE){
+binarise <- function(ValueTable = NULL, drop_multistate = TRUE, keep_raw_binary = TRUE){
     if (!inherits(ValueTable, "data.frame")) stop("'ValueTable' must be a dataframe.")
 
     # if there are binary features coded directly by coders, i.e. not derived from multistate features,
@@ -115,5 +115,5 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
             dplyr::filter(!(Parameter_ID %in% multistate_parameters))
         }
 
-export(ValueTable)
+ValueTable
 }
