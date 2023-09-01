@@ -32,12 +32,16 @@ binarise_GBXXX_to_GBXXXb_with_zero <- function(values) {
 gb_recode <- function(ValueTable, oldvariable, newvariable, func) {
     ValueTable %>% dplyr::filter(Parameter_ID==oldvariable) %>%
         dplyr::mutate(
-            ID=stringr::str_replace(ID, oldvariable, newvariable),
+            ID=paste0(newvariable, "-", Language_ID),
             Parameter_ID=newvariable,
             Value=func(Value)
         ) %>%
+        mutate(Code_ID = paste0(Parameter_ID, "-", Value)) %>%
         rbind(ValueTable)
 }
+
+ValueTable <- gb_recode(ValueTable, 'GB024', 'GB024a', binarise_GBXXX_to_GBXXXa_without_zero)
+
 
 #' Makes multi-state Grambank-features binary in the appropriate manner.
 #'
