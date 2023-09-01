@@ -1,17 +1,43 @@
 
 ValueTable <- read_csv("tests/testthat/fixtures/testdata/values.csv")
 
+
+# functions for turning 4 of the multistate features into binarised version. These features don't have the 0 option.
 #GB024 multistate 1; Num-N; 2: N-Num; 3: both.
-binarise_gb024_to_gb024a <- function(values) {
+#GB025 multistate 1: Dem-N; 2: N-Dem; 3: both.
+#GB065 multistate 1:Possessor-Possessed; 2:Possessed-Possessor; 3: both
+#GB130 multistate 1: SV; 2: VS; 3: both
+binarise_GBXXX_to_GBXXXa_without_zero <- function(values) {
     dplyr::case_match(values, "1" ~ "1", "2" ~ "0", "3" ~ "1", "?" ~ "?",  NA ~ NA)
 }
 
-binarise_gb024_to_gb024b <- function(values) {
-    dplyr::case_match(values, "2" ~ "1", "3" ~ "1", "1" ~ "0", "?" ~ "?", NA ~ NA)
+binarise_GBXXX_to_GBXXXb_without_zero <- function(values) {
+    dplyr::case_match(values, "1" ~ "0", "2" ~ "1", "3" ~ "1",  "?" ~ "?", NA ~ NA)
+}
+
+# functions for turning 4 of the multistate features into binarised version. These features have the 0 option.
+#GB193 multistate 0: they cannot be used attributively, 1: ANM-N; 2: N-ANM; 3: both.
+#GB203 multistate 0: no UQ, 1: UQ-N; 2: N-UQ; 3: both.
+binarise_GBXXX_to_GBXXXa_with_zero <- function(values) {
+    dplyr::case_match(values, "0"~"0", "1" ~ "1", "2" ~ "0", "3" ~ "1", "?" ~ "?",  NA ~ NA)
+}
+
+binarise_GBXXX_to_GBXXXb_with_zero <- function(values) {
+    dplyr::case_match(values, "0"~"0", "1" ~ "0", "2" ~ "1", "3" ~ "1",  "?" ~ "?", NA ~ NA)
 }
 
 
 
+
+gb_recode <- function(ValueTable, oldvariable, newvariable, func) {
+    ValueTable %>% dplyr::filter(Parameter_ID==oldvariable) %>%
+        dplyr::mutate(
+            ID=stringr::str_replace(ID, oldvariable, newvariable),
+            Parameter_ID=newvariable,
+            Value=func(Value)
+        ) %>%
+        rbind(ValueTable)
+}
 
 #' Makes multi-state Grambank-features binary in the appropriate manner.
 #'
@@ -47,7 +73,6 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
 
     # are we deliberately using dplyr::if_else AND base::ifelse?
 
-    #GB025 multistate 1: Dem-N; 2: N-Dem; 3: both.
     if("GB025" %in% colnames(wide_values)){
       wide_values$GB025a <- dplyr::if_else(wide_values$GB025 == "1"|
                                       wide_values$GB025 == "3"&
@@ -65,8 +90,6 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
                                       is.na(wide_values$GB025b), "?", wide_values$GB025b)
 
     }
-
-    #GB065 multistate 1:Possessor-Possessed; 2:Possessed-Possessor; 3: both
     if("GB065" %in% colnames(wide_values)){
       wide_values$GB065a <- dplyr::if_else(wide_values$GB065 == "1"|
                                       wide_values$GB065 == "3"&
@@ -104,7 +127,6 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
 
     }
 
-    #GB193 multistate 0: they cannot be used attributively, 1: ANM-N; 2: N-ANM; 3: both.
     if("GB193" %in% colnames(wide_values)){
       wide_values$GB193a <- dplyr::if_else(wide_values$GB193 == "1"|
                                       wide_values$GB193 == "3"&
@@ -121,7 +143,6 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
                                       is.na(wide_values$GB193b), "?", wide_values$GB193b)
 
     }
-    #GB203 multistate 0: no UQ, 1: UQ-N; 2: N-UQ; 3: both.
     if("GB203" %in% colnames(wide_values)){
       wide_values$GB203a <- dplyr::if_else(wide_values$GB203 == "1"|
                                       wide_values$GB203 == "3"&
