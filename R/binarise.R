@@ -54,7 +54,7 @@ gb_recode <- function(ValueTable, oldvariable, newvariable, func) {
             Parameter_ID=newvariable,
             Value=func(Value)
         ) %>%
-        mutate(Code_ID = paste0(Parameter_ID, "-", Value)) %>%
+        dplyr::mutate(Code_ID = paste0(Parameter_ID, "-", Value)) %>%
         rbind(ValueTable)
 }
 
@@ -106,8 +106,8 @@ binarise <- function(ValueTable = NULL, drop_multistate = TRUE, keep_raw_binary 
         ValueTable <- ValueTable %>%
             dplyr::anti_join(dplyr::select(ValueTable_raw_binary,
                                            Language_ID, Parameter_ID),
-                             by = join_by(Language_ID, Parameter_ID)) %>%
-            full_join(ValueTable_raw_binary, by = join_by(ID, Language_ID, Parameter_ID, Value, Code_ID, Comment, Source, Source_comment, Coders))
+                             by = c("Language_ID", "Parameter_ID")) %>%
+            dplyr::full_join(ValueTable_raw_binary, by = c("ID", "Language_ID", "Parameter_ID", "Value", "Code_ID", "Comment", "Source", "Source_comment", "Coders"))
 
     }
         if(drop_multistate == T) {
