@@ -1,4 +1,4 @@
-,ID,Name,Description,ColumnSpec,Patrons,Grambank_ID_desc,Boundness,Flexivity,Gender_or_Noun_Class,Locus_of_Marking,Word_Order,Informativity
+ID,Name,Description,ColumnSpec,Patrons,Grambank_ID_desc,Boundness,Flexivity,Gender_or_Noun_Class,Locus_of_Marking,Word_Order,Informativity
 1,GB020,Are there definite or specific articles?,,,JLA JC,GB020 ARTDef,,,,,,definitearticles
 2,GB021,Do indefinite nominals commonly have indefinite articles?,,,JLA JC,GB021 ARTIndef,,,,,,indef
 3,GB022,Are there prenominal articles?,,,JLA JC,GB022 ARTPre,,,,,0,
