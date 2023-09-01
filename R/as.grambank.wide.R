@@ -11,7 +11,7 @@ as.grambank.wide <- function(ValueTable = NULL) {
     if (!inherits(ValueTable, "data.frame")) stop("'ValueTable' must be a dataframe.")
 
     if (!all(c('Language_ID', 'Parameter_ID', 'Value') %in% colnames(ValueTable))) {
-        stop("Invalid table format - needs to have columns Language_ID/Parameter_ID/Value")
+        stop("Invalid table format - ValueTable needs to have columns Language_ID/Parameter_ID/Value")
     }
 
     ValueTable %>%
