@@ -1,6 +1,3 @@
-
-ValueTable <- read_csv("tests/testthat/fixtures/values_with_raw_fake_binary.csv")
-
 binary_parameters <- c(
     "GB024a", "GB024b",
     "GB025a", "GB025b",
@@ -23,11 +20,18 @@ multistate_parameters <- c(
 #GB065 multistate 1:Possessor-Possessed; 2:Possessed-Possessor; 3: both
 #GB130 multistate 1: SV; 2: VS; 3: both
 binarise_GBXXX_to_GBXXXa_without_zero <- function(values) {
+    if("0" %in% values){
+        stop("Feature contains zero-values which are not permitted.")
+    }
+
     dplyr::case_match(values, "1" ~ "1", "2" ~ "0", "3" ~ "1", "?" ~ "?",  NA ~ NA)
 }
 
 binarise_GBXXX_to_GBXXXb_without_zero <- function(values) {
-    dplyr::case_match(values, "1" ~ "0", "2" ~ "1", "3" ~ "1",  "?" ~ "?", NA ~ NA)
+    if("0" %in% values){
+        stop("Feature contains zero-values which are not permitted.")
+    }
+        dplyr::case_match(values, "1" ~ "0", "2" ~ "1", "3" ~ "1",  "?" ~ "?", NA ~ NA)
 }
 
 # functions for turning 2 of the multistate features into binarised version. These features have the 0 option.
@@ -109,10 +113,7 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
         if(drop_multistate == T) {
         ValueTable <- ValueTable %>%
             dplyr::filter(!(Parameter_ID %in% multistate_parameters))
-
         }
 
 export(ValueTable)
 }
-
-
