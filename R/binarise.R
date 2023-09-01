@@ -23,12 +23,12 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
     # we call these "raw binary". users can choose to drop these and only used derived, or use a mix,
     if (keep_raw_binary == FALSE) {
         ValueTable <- ValueTable %>%
-            dplyr::anti_join(dplyr::select(binary_parameters_df, Parameter_ID = ID), by = plyr::join_by(Parameter_ID))
+            dplyr::anti_join(dplyr::select(binary_parameters_df, Parameter_ID = ID), by = dplyr::join_by(Parameter_ID))
     }
 
-    # making the long table wide, it's easier for the binarisation. The table can be made long again with 
+    # making the long table wide, it's easier for the binarisation. The table can be made long again with
     # comments etc later.
-    wide_values <- make_ValueTable_wide(long_values)
+    wide_values <- as.grambank.wide(ValueTable)
 
     #if the binary raw feature isn't there, make a col with just NA values to start with. This will allow us to       blend raw and derived binary data later.
     for (binary_col in binary_parameters_df$ID) {
@@ -36,12 +36,12 @@ binarise <- function(ValueTable = NULL, wide = TRUE, drop_multistate = TRUE, kee
             wide_values[[paste0(binary_col)]] <- rep(NA, nrow(wide_values))
         }
     }
-    
+
     ######### DERIVING binary values from multistate ones
     wide_values$GB024a <- binarise_gb024_to_gb024a(wide_values$GB024)
     wide_values$GB024b <- binarise_gb024_to_gb024b(wide_values$GB024)
 
-    # are we deliberately using dplyr::if_else AND base::ifelse? 
+    # are we deliberately using dplyr::if_else AND base::ifelse?
 
     #GB025 multistate 1: Dem-N; 2: N-Dem; 3: both.
     if("GB025" %in% colnames(wide_values)){
