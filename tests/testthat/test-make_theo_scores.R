@@ -1,9 +1,7 @@
 test_that("theo scores work as expected", {
-    library(reshape2)
-    library(dplyr)
-    library(readr)
 
-    outcome <- make_theo_scores(ValueTable = read_csv("fixtures/values.csv", show_col_types = FALSE), ParameterTable_fn = "fixtures/parameters.csv") %>%
+    outcome <- make_theo_scores(ValueTable = read.delim("fixtures/values.csv", sep = ","),
+                                ParameterTable = read.delim("fixtures/parameters.csv", sep = ",")) %>%
         dplyr::filter(Language_ID == "anci1242") %>%
         as.matrix() %>%
         as.vector() %>%
