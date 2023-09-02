@@ -10,7 +10,7 @@
 #'
 #' @param ValueTable data-frame, long format. ValueTable from cldf.
 #' @param method character vector, choice between "singular_least_missing_data", "combine_random", "singular_random". combine_random = combine all datapoints for all the dialects/duplicates and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects/duplicates, singular_least_missing_data = choose the dialect/duplicate which has the most datapoints.
-#' @param LanguageTable data-frame of a cldf LanguageTable. Needs to have columns Glottocode and Language_ID or Language_level_ID. If not otherwise specified, it fetches the LanguageTable from glottolog-cldf online on GitHub (v4.8).
+#' @param LanguageTable data-frame of a cldf LanguageTable. Needs to have columns Glottocode and Language_ID or Language_level_ID.
 #' #' @param drop_question_marks logical vector indicating wether to turn ? into missing values (NA) or not.
 #' @return data-frame of ValueTable without duplicates
 #' @export
@@ -22,27 +22,16 @@
 language_level_df <- function(ValueTable = NULL,
                               method = c( "singular_least_missing_data", "combine_random", "singular_random"),
                               drop_question_marks = TRUE,
-                              LanguageTable = "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
+                              LanguageTable = NULL){
 
     if(length(method) != 1 & !(method %in% c( "singular_least_missing_data",
                                               "combine_random", "singular_random"))){
         stop("Method of merging is not defined.")
     }
 
-    ### WRANGLING LANGUAGE TABLE
-    # ValueTable = readr::read_csv("tests/testthat/fixtures/testdata/values.csv")
-
-    # TODO SJG: should add some checks here to make sure we have ALL the columns we need
-    #  or we stop()
-    # Hedvig response: Sure.
-
     if (!all(c('Language_ID', 'Parameter_ID', 'Value') %in% colnames(ValueTable))) {
         stop("Invalid table format - ValueTable needs to have columns Language_ID/Parameter_ID/Value")
     }
-
-if(LanguageTable == "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
-LanguageTable <- read.delim(LanguageTable, sep = ",")
-}
 
 # The language level ID column is named different in different, CLDF datasets.
 # setting them to the same
