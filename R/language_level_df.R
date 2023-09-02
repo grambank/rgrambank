@@ -40,6 +40,13 @@ language_level_df <- function(ValueTable = NULL,
         stop("Invalid table format - ValueTable needs to have columns Language_ID/Parameter_ID/Value")
     }
 
+    if (!('ID' %in% colnames(LanguageTable))&
+        ('LannguageID' %in% colnames(LanguageTable))|
+        ('Language_level_ID' %in% colnames(LanguageTable))) {
+        stop("Invalid table format - LanguageTable needs to have columns ID and Language_ID or Language_level_ID.")
+    }
+
+
 if(LanguageTable == "https://github.com/glottolog/glottolog-cldf/raw/v4.8/cldf/languages.csv"){
 LanguageTable <- read.delim(LanguageTable, sep = ",")
 }
@@ -48,12 +55,12 @@ LanguageTable <- read.delim(LanguageTable, sep = ",")
 # setting them to the same
 if(!("Language_level_ID" %in% colnames(LanguageTable))){
     LanguageTable   <- LanguageTable %>%
-        dplyr::select(Language_ID = Glottocode, Language_level_ID = Language_ID)
+        dplyr::select(Language_ID = ID, Language_level_ID = Language_ID)
 }
 
 if("Language_level_ID" %in% colnames(LanguageTable) & "ID" %in% colnames(LanguageTable)){
     LanguageTable   <- LanguageTable %>%
-        dplyr::select(Language_ID = Glottocode, Language_level_ID)
+        dplyr::select(Language_ID = ID, Language_level_ID)
 }
 
 # if there is a missing language level ID, which it can be in some datasets where only dialects get language level IDs and languages and families don't, then replace those with the content in the Language_ID column.
