@@ -2,7 +2,6 @@
 
 test_that("as.grambank.wide", {
     gb <- rcldf::cldf("fixtures/testdata/StructureDataset-metadata.json")
-    print(vroom::problems(gb$tables$ParameterTable))
     values <- as.grambank.wide(gb$tables$ValueTable)
 
     params <- gb$tables$ParameterTable %>% dplyr::pull("ID")
