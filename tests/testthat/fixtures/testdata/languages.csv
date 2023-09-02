@@ -1,0 +1,9 @@
+ID,Name,Macroarea,Latitude,Longitude,Glottocode,ISO639P3code,provenance,Family_name,Family_level_ID,Language_level_ID,level,lineage
+gamb1251,Gambera,Australia,-14.29546,126.27131,gamb1251,,LD_gamb1251.tsv,Worrorran,worr1236,gamb1251,language,worr1236/nort2751/forr1234
+kwin1241,Kwini,Australia,-14.2515,126.562,kwin1241,,LD_kwin1241.tsv,Worrorran,worr1236,kwin1241,language,worr1236/nort2751/forr1234
+miwa1242,Miwa,Australia,-14.3484,126.921,miwa1242,,LD_miwa1242.tsv,Worrorran,worr1236,miwa1242,language,worr1236/nort2751/forr1234
+munu1238,Munumburru,Australia,-14.700834,126.754387,munu1238,,LD_munu1238.tsv,Worrorran,worr1236,ngar1284,dialect,worr1236/ngar1284
+ngar1284,Ngarinyin,Australia,-16.4006,126.433,ngar1284,,LD_ngar1284.tsv,Worrorran,worr1236,ngar1284,language,worr1236
+ngar1285,Ngarnawu,Australia,-15.700055,127.452018,ngar1285,,LD_ngar1285.tsv,Worrorran,worr1236,ngar1284,dialect,worr1236/ngar1284
+worr1237,Worrorra,Australia,-15.612781,124.881218,worr1237,,LD_worr1237.tsv,Worrorran,worr1236,worr1237,language,worr1236/west2435
+yawi1239,Yawijibaya,Australia,-15.348087,124.529665,yawi1239,,LD_yawi1239.tsv,Worrorran,worr1236,worr1237,dialect,worr1236/west2435/worr1237
