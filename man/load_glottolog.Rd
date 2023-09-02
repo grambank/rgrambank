@@ -4,7 +4,10 @@
 \alias{load_glottolog}
 \title{Loads glottolog data (v4.8)}
 \usage{
-load_glottolog()
+load_glottolog(
+  url =
+    "https://zenodo.org/record/8131091/files/glottolog/glottolog-cldf-v4.8.zip?download=1"
+)
 }
 \value{
 An rcldf::cldf object
