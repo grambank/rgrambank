@@ -20,7 +20,7 @@ if(is.numeric(random_seed)){
 }
 
     #tree <- ape::read.tree("tests/testthat/fixtures/example_tree.tree")
-
+    #LanguageTable <- read.delim("tests/testthat/fixtures/taxa.csv", sep = ",")
 #if the tip labels has glottocodes as the first 8 characters and then something else, like a name, then prune that off. This is for example true for the EDGE-trees.
 if(trim_tip_label_to_first_eight == TRUE){
     tree$tip.label <- tree$tip.label %>% substr(1, 8)
@@ -33,20 +33,20 @@ if(is.null(LanguageTable)){
     stop("LanguageTable is NULL. LanguageTable is necessary for merging dialects.\n")
 }else{
 
-if(!("Language_ID" %in% colnames(LanguageTable) | "Language_level_ID" %in% colnames(LanguageTable))){
-stop("LanguageTable does not contain 'Language_ID' or 'Language_level_ID' columns.\n")
+if(!("Glottocode" %in% colnames(LanguageTable)  & "Language_ID" %in% colnames(LanguageTable) | "Language_level_ID" %in% colnames(LanguageTable))){
+stop("LanguageTable does not contain all the necessary columns: ´Glottocode' and 'Language_ID' or 'Language_level_ID'.")
     }
 
 # The language level ID column is named different in different, CLDF datasets.
 # setting them to the same
 if("Language_ID" %in% colnames(LanguageTable)){
     LanguageTable   <- LanguageTable %>%
-        dplyr::select(Language_ID = ID, Language_level_ID = Language_ID)
+        dplyr::select(Language_ID = Glottocode, Language_level_ID = Language_ID)
 }
 
 if("Language_level_ID" %in% colnames(LanguageTable) & "ID" %in% colnames(LanguageTable)){
     LanguageTable   <- LanguageTable %>%
-        dplyr::select(Language_ID = ID, Language_level_ID)
+        dplyr::select(Language_ID = Glottocode, Language_level_ID)
 }
 
 #some LanguageTables only contain values for Language_level_ID if the languoid is a dialect. Here we insert the language level glottocode if the level is language or family as well.
