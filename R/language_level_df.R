@@ -3,7 +3,6 @@
 #' @param ValueTable data-frame, long format. ValueTable from cldf.
 #' @param LanguageTable data-frame of a cldf LanguageTable. Needs to have columns Glottocode and Language_ID or Language_level_ID.
 #' @param method character vector, choice between "singular_least_missing_data", "combine_random", "singular_random". combine_random = combine all datapoints for all the dialects/duplicates and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects/duplicates, singular_least_missing_data = choose the dialect/duplicate which has the most datapoints.
-#' @param drop_question_marks logical vector indicating whether to turn ? into missing values (NA) or not.
 #' @return data-frame of ValueTable without duplicates
 #' @export
 
@@ -38,15 +37,6 @@ language_level_df <- function(ValueTable, LanguageTable,
         dplyr::mutate(Language_level_ID = ifelse(
             is.na(Language_level_ID) | Language_level_ID == "", Language_ID, Language_level_ID)
         )
-
-## QUESTION MARK ACTION
-
-#turn question marks into missing values if set to TRUE
-if(drop_question_marks == T){
-    ValueTable <- ValueTable %>%
-        dplyr::mutate(Value = ifelse(Value == "?", NA, Value)) %>%
-        dplyr::filter(!is.na(Value))
-}
 
 ## MERGE FOR LEAST MISSING DATA
 if( method == "singular_least_missing_data"){
