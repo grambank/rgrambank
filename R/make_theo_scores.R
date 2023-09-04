@@ -23,7 +23,7 @@ make_theo_scores <- function(ValueTable, ParameterTable){
         dplyr::mutate(Value = is.numeric(Value))  # drop out ? marking and makes it possible to sum, mean etc
 
     #fusion counts
-    df_morph_count <- ValueTable %>%
+    lg_df_for_fusion_count <- ValueTable %>%
         dplyr::filter(Fusion != 0) %>%
         dplyr::filter(!is.na(Value)) %>%
         dplyr::mutate(Value_weighted = ifelse(Fusion == 0.5 & Value == 1, 0.5, Value )) %>%
@@ -91,7 +91,7 @@ make_theo_scores <- function(ValueTable, ParameterTable){
         dplyr::full_join(lg_df_for_flex_count, by = "Language_ID") %>%
         dplyr::full_join(lg_df_for_gender_nc_count, by = "Language_ID") %>%
         dplyr::full_join(lg_df_for_HM_DM_count, by = "Language_ID") %>%
-        dplyr::full_join(df_morph_count, by = "Language_ID") %>%
+        dplyr::full_join(lg_df_for_fusion_count, by = "Language_ID") %>%
         dplyr::full_join(lg_df_informativity_score, by = "Language_ID")
 }
 
