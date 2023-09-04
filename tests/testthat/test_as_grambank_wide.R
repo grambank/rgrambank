@@ -1,22 +1,20 @@
-#testing that the function as.grambank.wide behaves as expected.
-
 test_that("as.grambank.wide", {
     gb <- rcldf::cldf("fixtures/testdata/StructureDataset-metadata.json")
     values <- as.grambank.wide(gb$tables$ValueTable)
 
-    params <- gb$tables$ParameterTable %>% dplyr::pull("ID")
+    params <- gb$tables$ValueTable %>% dplyr::filter(Language_ID == 'gamb1251') %>% dplyr::pull("Parameter_ID")
+
     # overkill perhaps
     for (p in params) {
-        original <- gb$tables$ValueTable %>%
-            dplyr::filter(Language_ID == 'gamb1251' & Parameter_ID == p) %>%
-            dplyr::pull(Value)
-        widened <- values %>% dplyr::filter(Language_ID == 'gamb1251') %>%
+        expected <- gb$tables$ValueTable %>%
+            dplyr::filter(Language_ID == 'gamb1251' & Parameter_ID == p)
+
+        expected <- ifelse(nrow(expected) == 0, NA, expected$Value)
+
+        actual <- values %>% dplyr::filter(Language_ID == 'gamb1251') %>%
             dplyr::pull(p)
 
-        if (original != widened) {
-            cat(sprintf("Param %s: %s == %s ---> %s\n", p, original, widened, original == widened))
-        }
-        expect_equal(original, widened)
+        expect_equal(actual, expected)
     }
 
     # check both methods work

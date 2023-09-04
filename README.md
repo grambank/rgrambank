@@ -15,3 +15,16 @@ Usage:
 grambank <- load_grambank()
 glottolog <- load_glottolog()
 ```
+
+## I want a table of languages in grambank with details from glottolog:
+
+```{r}
+library(dplyr)
+grambank <- load_grambank()
+glottolog <- load_grambank()
+
+languages <- grambank$tables$LanguageTable %>%
+    left_join(glottolog$tables$LanguageTable)
+
+head(languages)
+```
