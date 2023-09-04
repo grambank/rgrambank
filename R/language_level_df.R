@@ -38,76 +38,64 @@ language_level_df <- function(ValueTable, LanguageTable,
             is.na(Language_level_ID) | Language_level_ID == "", Language_ID, Language_level_ID)
         )
 
-## MERGE FOR LEAST MISSING DATA
-if( method == "singular_least_missing_data"){
+    ## MERGE FOR LEAST MISSING DATA
+    if (method == "singular_least_missing_data") {
+        levelled_ValueTable <- ValueTable %>%
+            dplyr::left_join(LanguageTable, by = "Language_ID") %>%
+            dplyr::group_by(Language_ID) %>%
+            dplyr::mutate(n = dplyr::n()) %>%
+            dplyr::arrange(desc(n)) %>%
+            dplyr::ungroup() %>%
+            dplyr::distinct(Language_level_ID, .keep_all = T) %>%
+            dplyr::distinct(Language_ID) %>%
+            dplyr::inner_join(ValueTable, by = "Language_ID") %>%
+            dplyr::left_join(LanguageTable, by = "Language_ID") %>%
+            dplyr::select(-Language_ID) %>%
+            dplyr::rename(Language_ID = Language_level_ID)
 
-    levelled_ValueTable <- ValueTable %>%
-        dplyr::left_join(LanguageTable, by = "Language_ID") %>%
-        dplyr::group_by(Language_ID) %>%
-        dplyr::mutate(n = dplyr::n()) %>%
-        dplyr::arrange(desc(n)) %>%
-        dplyr::ungroup() %>%
-        dplyr::distinct(Language_level_ID, .keep_all = T) %>%
-        dplyr::distinct(Language_ID) %>%
-        dplyr::inner_join(ValueTable, by = "Language_ID") %>%
-        dplyr::left_join(LanguageTable, by = "Language_ID") %>%
-        dplyr::select(-Language_ID) %>%
-        dplyr::rename(Language_ID = Language_level_ID)
+    # MERGE BY MAKING A FRANKENSTEIN COMBINATION OF ALL THE DIALECTS
+    } else if (method == "combine_random") {
 
-}
+        #in order to do this, we need to first make it long again.
+        # making vector of columns to make long
 
+        ValueTable_grouped <- ValueTable %>%
+            dplyr::filter(!is.na(Value)) %>%
+            dplyr::left_join(LanguageTable, by = "Language_ID",
+                      relationship = "many-to-many") %>%
+            dplyr::group_by(Language_level_ID, Parameter_ID) %>%
+            dplyr::mutate(n = dplyr::n()) %>%
+            dplyr::ungroup() %>%
+            dplyr::select(-Language_ID)
 
-# MERGE BY MAKING A FRANKENSTEIN COMBINATION OF ALL THE DIALECTS
-if( method == "combine_random"){
+        # it's faster if we do slice_sample (choose randomly) only on those that have more than 1
+        # value per language than if we do it on all.
+        ValueTable_long_n_greater_than_1 <- ValueTable_grouped %>%
+            dplyr::filter(n > 1) %>%
+            dplyr::group_by(Language_level_ID, Parameter_ID) %>%
+            dplyr::slice_sample(n = 1) %>%
+            dplyr::ungroup()
 
-    #in order to do this, we need to first make it long again.
+        levelled_ValueTable <- ValueTable_grouped %>%
+            dplyr::filter(n == 1) %>%
+            dplyr::full_join(ValueTable_long_n_greater_than_1, by = join_by(
+                ID, Parameter_ID, Value, Code_ID, Comment, Source, Source_comment, Coders, Language_level_ID, n))  %>%
+            dplyr::mutate(Language_ID = Language_level_ID) %>%
+            dplyr::select(-Language_level_ID, -n)
 
-    # making vector of columns to make long
+    # MERGE BY PICKING DIALECTS WHOLLY AT RANDOM
+    } else if (method == "singular_random") {
+        levelled_ValueTable <- ValueTable %>%
+            dplyr::left_join(LanguageTable, by = "Language_ID") %>%
+            dplyr::group_by(Language_level_ID) %>%
+            dplyr::slice_sample(n = 1) %>%
+            dplyr::ungroup() %>%
+            dplyr::mutate(Language_ID = Language_level_ID) %>%
+            dplyr::select(-Language_level_ID)
+    } else {
+        stop("invalid method")
+    }
 
-    ValueTable_grouped <- ValueTable %>%
-        dplyr::filter(!is.na(Value)) %>%
-        dplyr::left_join(LanguageTable, by = "Language_ID",
-                  relationship = "many-to-many") %>%
-        dplyr::group_by(Language_level_ID, Parameter_ID) %>%
-        dplyr::mutate(n = dplyr::n()) %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-Language_ID)
-
-    #it's faster if we do slice_sample (choose randomly) only on those that have more than 1 value per language than if we do it on all.
-    ValueTable_long_n_greater_than_1 <- ValueTable_grouped %>%
-        dplyr::filter(n > 1) %>%
-        dplyr::group_by(Language_level_ID, Parameter_ID) %>%
-        dplyr::slice_sample(n = 1) %>%
-        dplyr::ungroup()
-
-    levelled_ValueTable <- ValueTable_grouped %>%
-        dplyr::filter(n == 1) %>%
-        dplyr::full_join(ValueTable_long_n_greater_than_1, by = join_by(ID,
-                                                                 Parameter_ID,
-                                                                 Value,
-                                                                 Code_ID,
-                                                                 Comment,
-                                                                 Source,
-                                                                 Source_comment,
-                                                                 Coders,
-                                                                 Language_level_ID,
-                                                                 n))  %>%
-        dplyr::mutate(Language_ID = Language_level_ID) %>%
-        dplyr::select(-Language_level_ID, -n)
-}
-
-# MERGE BY PICKING DIALECTS WHOLLY AT RANDOM
-if( method == "singular_random"){
-    levelled_ValueTable <- ValueTable %>%
-        dplyr::left_join(LanguageTable, by = "Language_ID") %>%
-        dplyr::group_by(Language_level_ID) %>%
-        dplyr::slice_sample(n = 1) %>%
-        dplyr::ungroup() %>%
-        dplyr::mutate(Language_ID = Language_level_ID) %>%
-        dplyr::select(-Language_level_ID)
-}
-
-
-levelled_ValueTable
+    levelled_ValueTable
 }
 
