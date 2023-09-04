@@ -1,0 +1,196 @@
+ID,Name,Description,ColumnSpec,Patrons,Grambank_ID_desc,Boundness,Flexivity,Gender_or_Noun_Class,Locus_of_Marking,Word_Order,Informativity
+GB020,Are there definite or specific articles?,,,JLA JC,GB020 ARTDef,,,,,,definitearticles
+GB021,Do indefinite nominals commonly have indefinite articles?,,,JLA JC,GB021 ARTIndef,,,,,,indef
+GB022,Are there prenominal articles?,,,JLA JC,GB022 ARTPre,,,,,0,
+GB023,Are there postnominal articles?,,,JLA JC,GB023 ARTPost,,,,,1,
+GB024,What is the order of numeral and noun in the NP?,,,HJH,GB024 NUMOrder,,,,,,
+GB025,What is the order of adnominal demonstrative and noun?,,,JLA JC,GB025 DEMOrder,,,,,,
+GB026,Can adnominal property words occur discontinuously?,,,HJH,GB026 ADJDiscont,,,,,,
+GB027,Are nominal conjunction and comitative expressed by different elements?,,,HS,GB027 ComitConjDifferent,,,,,,comitative
+GB028,Is there a distinction between inclusive and exclusive?,,,HJH,GB028 Clusivity,,,,,,clusivity
+GB030,Is there a gender distinction in independent 3rd person pronouns?,,,HJH,GB030 PRO3PGender,,1,1,,,pronoungender3
+GB031,Is there a dual or unit augmented form (in addition to plural or augmented) for all person categories in the pronoun system?,,,HJH,GB031 PRODualAug,,,,,,pronoundualaug
+GB035,Are there three or more distance contrasts in demonstratives?,,,JLA JC,GB035 DEMDistContrast,,,,,,demonstartivedistance
+GB036,Do demonstratives show an elevation distinction?,,,JLA JC,GB036 DEMElevation,,,,,,demonstrativeelevation
+GB037,Do demonstratives show a visible-nonvisible distinction?,,,JLA JC,GB037 DEMVisNonvis,,,,,,demonstrativevisibility
+GB038,Are there demonstrative classifiers?,,,JLA JC,GB038 DEMClassifier,,1,0,,,demonstrative classifiers
+GB039,Is there nonphonological allomorphy of noun number markers?,,,JLA JC,GB039 NounNUMAllomorph,,1,,,,
+GB041,Are there several nouns (more than three) which are suppletive for number?,,,HS,GB041 NUMSupplNoun,,1,,,,
+GB042,Is there productive overt morphological singular marking on nouns?,,,HS,GB042 SingularNoun,1,,,1,,singular
+GB043,Is there productive morphological dual marking on nouns?,,,HS,GB043 DualBound,1,,,1,,dual
+GB044,Is there productive morphological plural marking on nouns?,,,HS,GB044 PluralBound,1,,,1,,plural
+GB046,Is there an associative plural marker for nouns?,,,HS,GB046 AssocPlural,,,,,,assocplural
+GB047,Is there a productive morphological pattern for deriving an action/state noun from a verb?,,,HS,GB047 NMZActionState,0.5,,,,,
+GB048,Is there a productive morphological pattern for deriving an agent noun from a verb?,,,HS,GB048 NMZAgent,0.5,,,,,
+GB049,Is there a productive morphological pattern for deriving an object noun from a verb?,,,HS,GB049 NMZObject,0.5,,,,,
+GB051,Is there a gender/noun class system where sex is a factor in class assignment?,,,HJH,GB051 GenderSex,,1,1,,,gendersex
+GB052,Is there a gender/noun class system where shape is a factor in class assignment?,,,HJH,GB052 GenderShape,,1,1,,,gendershape
+GB053,Is there a gender/noun class system where animacy is a factor in class assignment?,,,HJH,GB053 GenderAnimacy,,1,1,,,genderanimacy
+GB054,Is there a gender/noun class system where plant status is a factor in class assignment?,,,HJH,GB054 GenderPlants,,1,1,,,genderplant
+GB057,Are there numeral classifiers?,,,JLA JC,GB057 NUMClassif,,1,0,,,numera classifers
+GB058,Are there possessive classifiers?,,,JLA JC,GB058 POSSClassifier,,1,0,,,possessive classifiers
+GB059,Is the adnominal possessive construction different for alienable and inalienable nouns?,,,HJH,GB059 POSSAlienability,,,,,,alienability
+GB065,What is the pragmatically unmarked order of adnominal possessor noun and possessed noun?,,,HJH,GB065 POSSPosdPosrOrder,,,,,,
+GB068,"Do core adjectives (defined semantically as property concepts such as value, shape, age, dimension) act like verbs in predicative position?",,,JLA JC,GB068 PredAdjLikeV,,,,,,
+GB069,"Do core adjectives (defined semantically as property concepts; value, shape, age, dimension) used attributively require the same morphological treatment as verbs?",,,JLA JC,GB069 AttrAdjLikeV,,,,,,
+GB070,Are there morphological cases for non-pronominal core arguments (i.e. S/A/P)?,,,JLE,GB070 CoreCaseNoun,1,,,0,,
+GB071,Are there morphological cases for pronominal core arguments (i.e. S/A/P)?,,,JLE,GB071 CoreCasePRO,0.5,,,0,,
+GB072,Are there morphological cases for oblique non-pronominal NPs (i.e. not S/A/P)?,,,JLE,GB072 ObliqueCaseNoun,1,,,0,,
+GB073,Are there morphological cases for independent oblique personal pronominal arguments (i.e. not S/A/P)?,,,JLE,GB073 ObliqueCasePRO,0.5,,,0,,
+GB074,Are there prepositions?,,,JLE,GB074 Prepositions,0,,,,1,
+GB075,Are there postpositions?,,,JLE,GB075 Postpositions,0,,,,0,
+GB079,"Do verbs have prefixes/proclitics, other than those that only mark A, S or P (do include portmanteau: A & S + TAM)?",,,JLE,GB079 VPrefixing,1,,,,,
+GB080,"Do verbs have suffixes/enclitics, other than those that only mark A, S or P (do include portmanteau: A & S + TAM)?",,,JLE,GB080 VSuffixing,1,,,,,
+GB081,Is there productive infixation in verbs?,,,HJH,GB081 VInfix,1,,,,,
+GB082,Is there overt morphological marking of present tense on verbs?,,,HS,GB082 PresentBoundV,1,,,,,tense
+GB083,Is there overt morphological marking on the verb dedicated to past tense?,,,HS,GB083 PastBoundV,1,,,,,tense
+GB084,Is there overt morphological marking on the verb dedicated to future tense?,,,HS,GB084 FutureBoundV,1,,,,,tense
+GB086,Is a morphological distinction between perfective and imperfective aspect available on verbs?,,,HS,GB086 AspectBoundV,1,,,,,aspect
+GB089,Can the S argument be indexed by a suffix/enclitic on the verb in the simple main clause?,,,AWM,GB089 S-ArgSfxV,1,,,1,,
+GB090,Can the S argument be indexed by a prefix/proclitic on the verb in the simple main clause?,,,AWM,GB090 S-ArgPfxV,1,,,1,,
+GB091,Can the A argument be indexed by a suffix/enclitic on the verb in the simple main clause?,,,AWM,GB091 A-ArgSfxV,1,,,1,,
+GB092,Can the A argument be indexed by a prefix/proclitic on the verb in the simple main clause?,,,AWM,GB092 A-ArgPfxV,1,,,1,,
+GB093,Can the P argument be indexed by a suffix/enclitic on the verb in the simple main clause?,,,AWM,GB093 P-ArgSfxV,1,,,1,,
+GB094,Can the P argument be indexed by a prefix/proclitic on the verb in the simple main clause?,,,AWM,GB094 P-ArgPfxV,1,,,1,,
+GB095,Are variations in marking strategies of core participants based on TAM distinctions?,,,AWM,GB095 CaseSplitTAM,,1,,,,
+GB096,Are variations in marking strategies of core participants based on verb classes?,,,AWM,GB096 CaseSplitVerbClass,,1,,,,
+GB098,Are variations in marking strategies of core participants based on person distinctions?,,,AWM,GB098 CaseSplitPerson,,1,,,,
+GB099,Can verb stems alter according to the person of a core participant?,,,AWM,GB099 VSupplPerson,,1,,1,,
+GB103,Is there a benefactive applicative marker on the verb (including indexing)?,,,JLE,GB103 BenefApplBoundV,1,,,,,benefactive
+GB104,Is there an instrumental applicative marker on the verb (including indexing)?,,,JLE,GB104 AppInstrBoundV,1,,,,,instrumental
+GB105,Can the recipient in a ditransitive construction be marked like the monotransitive patient?,,,AWM,GB105 CaseRecipientObj,,,,,,
+GB107,"Can standard negation be marked by an affix, clitic or modification of the verb?",,,HS,GB107 NEGBoundV,1,,,,,
+GB108,Is there directional or locative morphological marking on verbs?,,,JLE,GB108 DirLocBoundV,1,,,,,directional
+GB109,Is there verb suppletion for participant number?,,,HS,GB109 VSupplNUM,,1,,1,,
+GB110,Is there verb suppletion for tense or aspect?,,,HS,GB110 VSupplTA,,1,,,,
+GB111,Are there conjugation classes?,,,JLA JC,GB111 VerbClass,,1,,,,
+GB113,Are there verbal affixes or clitics that turn intransitive verbs into transitive ones?,,,JLE,GB113 TransitivizingBound,1,,,,,
+GB114,Is there a phonologically bound reflexive marker on the verb?,,,JLE,GB114 ReflBoundV,1,,,1,,reflexivity
+GB115,Is there a phonologically bound reciprocal marker on the verb?,,,JLE,GB115 RecipBoundV,1,,,1,,reciprocity
+GB116,"Do verbs classify the shape, size or consistency of absolutive arguments by means of incorporated nouns, verbal affixes or suppletive verb stems?",,,JLA JC,GB116 VClassifiers,,1,,,,verbclassify
+GB117,Is there a copula for predicate nominals?,,,JLA JC,GB117 CopulaPredNom,,,,,,copulaprednom
+GB118,Are there serial verb constructions?,,,JLA JC,GB118 SerialV,,,,,,
+GB119,"Can mood be marked by an inflecting word (""auxiliary verb"")?",,,HS,GB119 MoodAUX,1,,,,,mood
+GB120,"Can aspect be marked by an inflecting word (""auxiliary verb"")?",,,HS,GB120 AspectAUX,1,,,,,aspect
+GB121,"Can tense be marked by an inflecting word (""auxiliary verb"")?",,,HS,GB121 AUXTense,1,,,,,tense
+GB122,Is verb compounding a regular process?,,,JLA JC,GB122 VCompounding,,,,,,
+GB123,Are there verb-adjunct (aka light-verb) constructions?,,,JLA JC,GB123 LightVerb,,,,,,
+GB124,Is incorporation of nouns into verbs a productive intransitivizing process?,,,HJH,GB124 NounIncorpIntrans,,,,,,
+GB126,Is there an existential verb?,,,HS,GB126 ExistentialV,,,,,,existentialverb
+GB127,Are different posture verbs used obligatorily depending on an inanimate locatum's shape or position (e.g. 'to lie' vs. 'to stand')?,,,JLE,GB127 PostureVerbs,,,,,,postureverbs
+GB129,"Is there a notably small number, i.e. about 100 or less, of verb roots in the language?",,,HS,GB129 FewVerbs,,,,,,
+GB130,What is the pragmatically unmarked order of S and V in intransitive clauses?,,,HJH,GB130 OrderSVIntrans,,,,,,
+GB131,Is a pragmatically unmarked constituent order verb-initial for transitive clauses?,,,HJH,GB131 TransVInitOrder,,,,,1,
+GB132,Is a pragmatically unmarked constituent order verb-medial for transitive clauses?,,,HJH,GB132 TransVMedOrder,,,,,,
+GB133,Is a pragmatically unmarked constituent order verb-final for transitive clauses?,,,HJH,GB133 TransVFinalOrder,,,,,0,
+GB134,Is the order of constituents the same in main and subordinate clauses?,,,HJH,GB134 MainSubSameOrder,,,,,,
+GB135,Do clausal objects usually occur in the same position as nominal objects?,,,HJH,GB135 SUBClauseInOPosition,,,,,,
+GB136,Is the order of core argument (i.e. S/A/P) constituents fixed?,,,HJH,GB136 WordOrderFixed,,,,,,
+GB137,Can standard negation be marked clause-finally?,,,HJH,GB137 NEGFinal,,,,,,
+GB138,Can standard negation be marked clause-initially?,,,HJH,GB138 NEGInitial,,,,,,
+GB139,Is there a difference between imperative (prohibitive) and declarative negation constructions?,,,HS,GB139 NEGProhibitive,,,,,,prohibitive
+GB140,"Is verbal predication marked by the same negator as all of the following types of predication: locational, existential and nominal?",,,HS,GB140 SameNEGLocExistNom,,,,,,differentneg
+GB146,Is there a morpho-syntactic distinction between predicates expressing controlled versus uncontrolled events or states?,,,JLE,GB146 VControl,0.5,,,,,control
+GB147,Is there a morphological passive marked on the lexical verb?,,,JLE,GB147 PassiveBoundV,1,,,,,passive
+GB148,Is there a morphological antipassive marked on the lexical verb?,,,JLE,GB148 AntipassiveBoundV,1,,,,,antipassive
+GB149,Is there a morphologically marked inverse on verbs?,,,JLE,GB149 InverseBoundV,1,,,,,inverse
+GB150,Is there clause chaining?,,,HJH,GB150 ClauseChain,,,,,,
+GB151,"Is there an overt verb marker dedicated to signalling coreference or noncoreference between the subject of one clause and an argument of an adjacent clause (""switch reference"")?",,,HJH,GB151 SwitchReference,1,,,,,switch reference
+GB152,Is there a morphologically marked distinction between simultaneous and sequential clauses?,,,HJH,GB152 SimulSeqBound,1,,,,,simultanseq
+GB155,Are causatives formed by affixes or clitics on verbs?,,,JLE,GB155 CAUSBound,1,,,,,
+GB156,Is there a causative construction involving an element that is unmistakably grammaticalized from a verb for 'to say'?,,,JLE,GB156 CAUSSay,,,,,,
+GB158,Are verbs reduplicated?,,,JLE,GB158 RedupV,,,,,,
+GB159,Are nouns reduplicated?,,,JLE,GB159 RedupNoun,,,,,,
+GB160,Are elements apart from verbs or nouns reduplicated?,,,JLE,GB160 RedupOther,,,,,,
+GB165,Is there productive morphological trial marking on nouns?,,,HS,GB165 TrialBound,1,,,1,,trial
+GB166,Is there productive morphological paucal marking on nouns?,,,HS,GB166 PaucalBound,1,,,1,,paucal
+GB167,Is there a logophoric pronoun?,,,HJH,GB167 PROLogophore,,,,,,pronounlog
+GB170,Can an adnominal property word agree with the noun in gender/noun class?,,,JLA JC,GB170 ADJGender,1,1,1,0,,
+GB171,Can an adnominal demonstrative agree with the noun in gender/noun class?,,,JLA JC,GB171 DEMGender,1,1,1,0,,
+GB172,Can an article agree with the noun in gender/noun class?,,,JLA JC,GB172 ARTGender,1,1,1,0,,
+GB177,"Can the verb carry a marker of animacy of argument, unrelated to any gender/noun class of the argument visible in the NP domain?",,,AWM,GB177 AnimacyBoundV,1,1,1,1,,verb_animacy
+GB184,Can an adnominal property word agree with the noun in number?,,,JLA JC,GB184 AdjNUM,1,,,0,,
+GB185,Can an adnominal demonstrative agree with the noun in number?,,,JLA JC,GB185 DEMNum,1,,,0,,
+GB186,Can an article agree with the noun in number?,,,JLA JC,GB186 ARTNum,1,,,0,,
+GB187,Is there any productive diminutive marking on the noun (exclude marking by system of nominal classification only)?,,,JLA JC,GB187 DIMBound,1,1,,,,diminutive
+GB188,Is there any productive augmentative marking on the noun (exclude marking by system of nominal classification only)?,,,JLA JC,GB188 AUGBound,1,1,,,,augmentative
+GB192,Is there a gender system where a noun's phonological properties are a factor in class assignment?,,,HJH,GB192 GenderPhono,,1,1,,,
+GB193,What is the order of adnominal property word and noun?,,,JLA JC,GB193 OrderADJ,,,,,,
+GB196,Is there a male/female distinction in 2nd person independent pronouns?,,,HJH,GB196 PRO2PMascFem,,,1,,,pronoungender2
+GB197,Is there a male/female distinction in 1st person independent pronouns?,,,HJH,GB197 PRO1PMascFem,,,1,,,pronoungender1
+GB198,Can an adnominal numeral agree with the noun in gender/noun class?,,,JLA JC,GB198 NUMGender,1,1,1,0,,
+GB203,What is the order of the adnominal collective universal quantifier ('all') and the noun?,,,HJH,GB203 QUANTOrder,,,,,,
+GB204,Do collective ('all') and distributive ('every') universal quantifiers differ in their forms or their syntactic positions?,,,HJH,GB204 QUANTUniversal,,,,,,
+GB250,Can predicative possession be expressed with a transitive 'habeo' verb?,,,HS,GB250 PredPOSSHabeo,,,,,,
+GB252,Can predicative possession be expressed with an S-like possessum and a locative-coded possessor?,,,HS,GB252 PredPOSSLoc,,,,,,
+GB253,Can predicative possession be expressed with an S-like possessum and a dative-coded possessor?,,,HS,GB253 PredPOSSDat,,,,,,
+GB254,Can predicative possession be expressed with an S-like possessum and a possessor that is coded like an adnominal possessor?,,,HS,GB254 PredPOSSAdnom,,,,,,
+GB256,Can predicative possession be expressed with an S-like possessor and a possessum that is coded like a comitative argument?,,,HS,GB256 PredPOSSComitative,,,,,,
+GB257,Can polar interrogation be marked by intonation only?,,,JLA JC,GB257 QIntonation,,,,,,
+GB260,Can polar interrogation be indicated by a special word order?,,,JLA JC,GB260 QWordOrder,,,,,,
+GB262,Is there a clause-initial polar interrogative particle?,,,JLA JC,GB262 QPartInitial,0,,,,1,
+GB263,Is there a clause-final polar interrogative particle?,,,JLA JC,GB263 QPartFinal,0,,,,,
+GB264,Is there a polar interrogative particle that most commonly occurs neither clause-initially nor clause-finally?,,,JLA JC,GB264 QPartMedial,0,,,,,
+GB265,"Is there a comparative construction that includes a form that elsewhere means 'surpass, exceed'?",,,HJH,GB265 COMPARExceed,,,,,,
+GB266,Is there a comparative construction that employs a marker of the standard which elsewhere has a locational meaning?,,,HJH,GB266 COMPARLoc,,,,,,
+GB270,Can comparatives be expressed using two conjoined clauses?,,,HJH,GB270 COMPARConjoin,,,,,,
+GB273,Is there a comparative construction with a standard marker that elsewhere has neither a locational meaning nor a 'surpass/exceed' meaning?,,,HJH,GB273 COMPAROtherMarker,,,,,,
+GB275,Is there a bound comparative degree marker on the property word in a comparative construction?,,,HJH,GB275 COMPDegreeBound,1,,,,,
+GB276,Is there a non-bound comparative degree marker modifying the property word in a comparative construction?,,,HJH,GB276 COMPDegreeFree,,,,,,
+GB285,Can polar interrogation be marked by a question particle and verbal morphology?,,,JLA JC,GB285 QPartVMorph,1,,,,,
+GB286,Can polar interrogation be indicated by overt verbal morphology only?,,,JLA JC,GB286 QVMorph,1,,,,,
+GB291,Can polar interrogation be marked by tone?,,,JLA JC,GB291 QTone,,,,,,
+GB296,Is there a phonologically or morphosyntactically definable class of ideophones that includes ideophones depicting imagery beyond sound?,,,JLE,GB296 Ideophones,,,,,,
+GB297,Can polar interrogation be indicated by a V-not-V construction?,,,JLA JC,GB297 QVNotV,,,,,,
+GB298,"Can standard negation be marked by an inflecting word (""auxiliary verb"")?",,,HS,GB298 NEGAux,1,,,,,
+GB299,"Can standard negation be marked by a non-inflecting word (""auxiliary particle"")?",,,HS,GB299 NEGPart,0,,,,,
+GB300,Does the verb for 'give' have suppletive verb forms?,,,HS,GB300 VSupplGive,,1,,,,
+GB301,Is there an inclusory construction?,,,JLA JC,GB301 Inclusory,,,,,,
+GB302,"Is there a phonologically free passive marker (""particle"" or ""auxiliary"")?",,,JLE,GB302 PassiveFree,0,,,,,passive
+GB303,"Is there a phonologically free antipassive marker (""particle"" or ""auxiliary"")?",,,JLE,GB303 AntipassiveFree,0,,,,,antipassive
+GB304,Can the agent be expressed overtly in a passive clause?,,,JLE,GB304 PassiveA-ArgOvert,,,,,,
+GB305,Is there a phonologically independent reflexive pronoun?,,,JLE,GB305 PRORefl,,,,,,reflexivity
+GB306,Is there a phonologically independent non-bipartite reciprocal pronoun?,,,JLE,GB306 PROReciproc,,,,,,reciprocity
+GB309,"Are there multiple past or multiple future tenses, distinguishing distance from Time of Reference?",,,HS,GB309 MultiplePastFuture,,,,,,multipletense
+GB312,Is there overt morphological marking on the verb dedicated to mood?,,,HS,GB312 MoodBoundV,1,,,,,mood
+GB313,Are there special adnominal possessive pronouns that are not formed by an otherwise regular process?,,,HJH,GB313 PROPoss,,,,,,
+GB314,Can augmentative meaning be expressed productively by a shift of gender/noun class?,,,JLA JC,GB314 AUGgender,,,,,,augmentative
+GB315,Can diminutive meaning be expressed productively by a shift of gender/noun class?,,,JLA JC,GB315 DIMGender,,,,,,diminutive
+GB316,Is singular number regularly marked in the noun phrase by a dedicated phonologically free element?,,,HS,GB316 SingularFree,0,,,,,singular
+GB317,Is dual number regularly marked in the noun phrase by a dedicated phonologically free element?,,,HS,GB317 DualFree,0,,,,,dual
+GB318,Is plural number regularly marked in the noun phrase by a dedicated phonologically free element?,,,HS,GB318 PluralFree,0,,,,,plural
+GB319,Is trial number regularly marked in the noun phrase by a dedicated phonologically free element?,,,HS,GB319 TrialFree,0,,,,,trial
+GB320,Is paucal number regularly marked in the noun phrase by a dedicated phonologically free element?,,,HS,GB320 PaucalFree,0,,,,,paucal
+GB321,Is there a large class of nouns whose gender/noun class is not phonologically or semantically predictable?,,,HJH,GB321 GenderUnpredict,,1,1,,,
+GB322,Is there grammatical marking of direct evidence (perceived with the senses)?,,,HJH,GB322 EvidSense,,,,,,evidentiality_direct
+GB323,"Is there grammatical marking of indirect evidence (hearsay, inference, etc.)?",,,HJH,GB323 EvidIndirect,,,,,,evidentiality_indirect
+GB324,"Is there an interrogative verb for content interrogatives (who?, what?, etc.)?",,,HJH,GB324 QV,,,,,,
+GB325,Is there a count/mass distinction in interrogative quantifiers?,,,HJH,GB325 QCountMass,,,,,,count_mass
+GB326,Do (nominal) content interrogatives normally or frequently occur in situ?,,,HJH,GB326 QInSitu,,,,,,
+GB327,Can the relative clause follow the noun?,,,JLE,GB327 RELPost,,,,,1,
+GB328,Can the relative clause precede the noun?,,,JLE,GB328 RELPre,,,,,0,
+GB329,Are there internally-headed relative clauses?,,,JLE,GB329 RELInternalHead,,,,,,
+GB330,Are there correlative relative clauses?,,,JLE,GB330 RELCorr,,,,,,
+GB331,Are there non-adjacent relative clauses?,,,JLE,GB331 RELAdjoined,,,,,,
+GB333,Is there a decimal numeral system?,,,JLE,GB333 NUMDecimal,,,,,,
+GB334,Is there synchronic evidence for any element of a quinary numeral system?,,,JLE,GB334 NUMQuinary,,,,,,
+GB335,Is there synchronic evidence for any element of a vigesimal numeral system?,,,JLE,GB335 NUMVigesimal,,,,,,
+GB336,Is there a body-part tallying system?,,,JLE,GB336 NUMBodyTally,,,,,,
+GB400,"Are all person categories neutralized in some voice, tense, aspect, mood and/or negation?",,,AWM,GB400 PersonNeutralized,,,,,,
+GB401,Is there a class of patient-labile verbs?,,,AWM,GB401 PatientLabile,,,,,,
+GB402,Does the verb for 'see' have suppletive verb forms?,,,HS,GB402 VSupplSee,,1,,,,
+GB403,Does the verb for 'come' have suppletive verb forms?,,,HS,GB403 VSupplCome,,1,,,,
+GB408,Is there any accusative alignment of flagging?,,,AWM,GB408 Accusative,,,,0,,
+GB409,Is there any ergative alignment of flagging?,,,AWM,GB409 Ergative,,,,0,,
+GB410,Is there any neutral alignment of flagging?,,,AWM,GB410 NeutralAlign,,,,0,,
+GB415,Is there a politeness distinction in 2nd person forms?,,,HJH,GB415 PRO2PPoliteness,,,,,,politeness
+GB421,Is there a preposed complementizer in complements of verbs of thinking and/or knowing?,,,HS,GB421 ComplThinkKnowPre,,,,,1,
+GB422,Is there a postposed complementizer in complements of verbs of thinking and/or knowing?,,,HS,GB422 ComplThinkKnowPost,,,,,0,
+GB430,Can adnominal possession be marked by a prefix on the possessor?,,,HJH,GB430 POSSPfxPosr,1,,,0,,
+GB431,Can adnominal possession be marked by a prefix on the possessed noun?,,,HJH,GB431 POSSPfxPosd,1,,,1,,
+GB432,Can adnominal possession be marked by a suffix on the possessor?,,,HJH,GB432 POSSSfxPosr,1,,,0,,
+GB433,Can adnominal possession be marked by a suffix on the possessed noun?,,,HJH,GB433 POSSSfxPosd,1,,,1,,
+GB519,"Can mood be marked by a non-inflecting word (""auxiliary particle"")?",,,HS,GB519 MoodAuxPart,0,,,,,mood
+GB520,"Can aspect be marked by a non-inflecting word (""auxiliary particle"")?",,,HS,GB520 AspectAuxPart,0,,,,,aspect
+GB521,"Can tense be marked by a non-inflecting word (""auxiliary particle"")?",,,HS,GB521 TenseAuxPart,0,,,,,tense
+GB522,"Can the S or A argument be omitted from a pragmatically unmarked clause when the referent is inferrable from context (""pro-drop"" or ""null anaphora"")?",,,HJH,GB522 PRODrop,,,,,,
