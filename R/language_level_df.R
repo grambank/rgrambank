@@ -1,31 +1,17 @@
-
-# TODO SJG:
-#   reading over this -- I wondered if it's better to run this on a grambank rcldf object
-#  e.g. gb <- rcldf("tests/testdata/fixtures/testdata/")
-#       gb.subset <- to_language_level(gb, method="xxx")
-
-## Hedvig response: I disagree. I believe that this function should take dataframes of ValueTables, and the user can give those to the function however they'd like. I think requiring a rcldf object class is unnecessary, especially since it's possible to point to a df within that object (gb$tables$ValueTable). I do not see what the advantage would be. If you could explain that, I'll consider again. I spoke to Angela, and she agrees with me. I haven't heard back from the other future users on this specific point.
-
 #' Reduce dialects and other duplicates which have the same glottcode in dataframe to one per language, and give it the glottocode of the parent that is at level language. Requires a cldf-value table and language-table. Simplifies combination of dataset.
 #'
 #' @param ValueTable data-frame, long format. ValueTable from cldf.
-#' @param method character vector, choice between "singular_least_missing_data", "combine_random", "singular_random". combine_random = combine all datapoints for all the dialects/duplicates and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects/duplicates, singular_least_missing_data = choose the dialect/duplicate which has the most datapoints.
 #' @param LanguageTable data-frame of a cldf LanguageTable. Needs to have columns Glottocode and Language_ID or Language_level_ID.
-#' #' @param drop_question_marks logical vector indicating wether to turn ? into missing values (NA) or not.
+#' @param method character vector, choice between "singular_least_missing_data", "combine_random", "singular_random". combine_random = combine all datapoints for all the dialects/duplicates and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects/duplicates, singular_least_missing_data = choose the dialect/duplicate which has the most datapoints.
+#' @param drop_question_marks logical vector indicating whether to turn ? into missing values (NA) or not.
 #' @return data-frame of ValueTable without duplicates
 #' @export
 
-# TODO SJG: can we fix the indentation here?
-# Hedvig response: Sure, to me that's a aesthtics thing, we can do it however you'd like.
+language_level_df <- function(ValueTable, LanguageTable,
+                              method = c("singular_least_missing_data", "combine_random", "singular_random"),
+                              drop_question_marks = TRUE) {
 
-
-language_level_df <- function(ValueTable = NULL,
-                              method = c( "singular_least_missing_data", "combine_random", "singular_random"),
-                              drop_question_marks = TRUE,
-                              LanguageTable = NULL){
-
-    if(length(method) != 1 & !(method %in% c( "singular_least_missing_data",
-                                              "combine_random", "singular_random"))){
+    if (length(method) != 1 & !(method %in% c("singular_least_missing_data", "combine_random", "singular_random"))) {
         stop("Method of merging is not defined.")
     }
 
@@ -33,22 +19,25 @@ language_level_df <- function(ValueTable = NULL,
         stop("Invalid table format - ValueTable needs to have columns Language_ID/Parameter_ID/Value")
     }
 
-# The language level ID column is named different in different, CLDF datasets.
-# setting them to the same
-if(!("Language_level_ID" %in% colnames(LanguageTable))){
-    LanguageTable   <- LanguageTable %>%
-        dplyr::select(Language_ID = Glottocode, Language_level_ID = Language_ID)
-}
+    # The language level ID column is named different in different, CLDF datasets.
+    # setting them to the same
+    if (!("Language_level_ID" %in% colnames(LanguageTable))) {
+        LanguageTable   <- LanguageTable %>%
+            dplyr::select(Language_ID = Glottocode, Language_level_ID = Language_ID)
+    }
 
-if("Language_level_ID" %in% colnames(LanguageTable) & "ID" %in% colnames(LanguageTable)){
-    LanguageTable   <- LanguageTable %>%
-        dplyr::select(Language_ID = Glottocode, Language_level_ID)
-}
+    if ("Language_level_ID" %in% colnames(LanguageTable) & "ID" %in% colnames(LanguageTable)) {
+        LanguageTable   <- LanguageTable %>%
+            dplyr::select(Language_ID = Glottocode, Language_level_ID)
+    }
 
-# if there is a missing language level ID, which it can be in some datasets where only dialects get language level IDs and languages and families don't, then replace those with the content in the Language_ID column.
-LanguageTable   <- LanguageTable %>%
-  dplyr::mutate(Language_level_ID = ifelse(is.na(Language_level_ID)|
-                                               Language_level_ID == "", Language_ID, Language_level_ID))
+    # if there is a missing language level ID, which it can be in some datasets where only
+    # dialects get language level IDs and languages and families don't, then replace those
+    # with the content in the Language_ID column.
+    LanguageTable   <- LanguageTable %>%
+        dplyr::mutate(Language_level_ID = ifelse(
+            is.na(Language_level_ID) | Language_level_ID == "", Language_ID, Language_level_ID)
+        )
 
 ## QUESTION MARK ACTION
 
