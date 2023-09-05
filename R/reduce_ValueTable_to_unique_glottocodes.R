@@ -8,7 +8,6 @@
 #' @description
 #' This function takes a CLDF ValueTable and reduces it down to only entries with unique Glottocodes. If there are dialects of the same language, merge_dialects can be set to TRUE and then they are also treated as duplicates and reduced in the same manner as method specifies.
 #' @note
-#' There are cldf-datasets where a Language can have multiple values, for example in APiCS where there are multiple values possible per parameter. In APiCS, there is an extra column called "Freqnecy" which denotes how frequent the different values are in a given language. Currently, this function does not support such instances and would enforce one value per parameter which would not be correct.
 #' Any non-missing data in ValueTable is counted as data, i.e. if there are "?"-Values they are treated the same as "1", "0" etc. If you want to treat them as missing, you need to replace them with NAs before applying the function.
 #' @return data-frame of ValueTable without duplicates
 #' @export
@@ -16,7 +15,7 @@
 
 # ValueTable <- readr::read_csv("https://github.com/cldf-datasets/apics/raw/master/cldf/values.csv")
 # ValueTable <- readr::read_csv("https://github.com/cldf-datasets/wals/raw/master/cldf/values.csv")
-# LanguageTable <- readr::read_csv("https://github.com/cldf-datasets/wals/raw/master/cldf/languages.csv")
+# LanguageTable <- readr::read_csv("https://github.com/cldf-datasets/apics/raw/master/cldf/languages.csv")
 # LanguageTable2 <-readr::read_csv("https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv")
 
 # cldf <- rcldf::cldf("tests/testthat/fixtures/testdata/StructureDataset-metadata.json")
@@ -44,13 +43,26 @@ reduce_ValueTable_to_unique_glottocodes <- function(ValueTable,
     }
 
 
-parameters_with_more_than_one_value <-   ValueTable %>%
+multiple_values_per_parameter <- ValueTable %>%
+        dplyr::distinct() %>%
         dplyr::group_by(Language_ID, Parameter_ID) %>%
-        dplyr::summarise(n = n(), .groups = "drop") %>%
-        dplyr::filter(n > 1) %>% nrow()
+        dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
+        dplyr::filter(n > 1) %>%
+    nrow()
 
-if(parameters_with_more_than_one_value != 0){
-    stop("ValueTable is of a kind that allows more than one Value per Parameter_ID and Language_ID, which is currently not supported in this function.")
+
+if(multiple_values_per_parameter > 1){
+    message("Found more than one Value per Language_ID and Parameter_ID. Collapsing, will unnest at the end. May take a little big longer.")
+    ValueTable  <-   ValueTable %>%
+        dplyr::group_by(Language_ID, Parameter_ID) %>%
+        dplyr::mutate(Value = stringr::str_split(paste0(Value, collapse = ";"), pattern = ";"),
+                      Frequency = stringr::str_split(paste0(Frequency, collapse = ";"), pattern = ";"),
+                      ID = stringr::str_split(paste0(ID, collapse = ";"), pattern = ";"),
+                      Code_ID = stringr::str_split(paste0(Code_ID, collapse = ";"), pattern = ";"),
+                      Confidence = stringr::str_split(paste0(Confidence, collapse = ";"), pattern = ";"),
+                      Example_ID = stringr::str_split(paste0(Example_ID, collapse = ";"), pattern = ";")) %>%
+    dplyr::distinct() %>%
+    dplyr::ungroup()
     }
 
 ## Check if LanguageTables are able to be used for merging dialects (if merge_dialects == TRUE) and set-up LanguageTable for use later.
@@ -179,6 +191,12 @@ if(merge_dialects == FALSE){
         stop("invalid method")
     }
 
-    levelled_ValueTable
+
+if(multiple_values_per_parameter > 1){
+    levelled_ValueTable <-     levelled_ValueTable %>%
+    unnest(cols = c("Value", "Frequency", "ID", "Code_ID", "Confidence", "Example_ID"))
+}
+
+levelled_ValueTable
 }
 
