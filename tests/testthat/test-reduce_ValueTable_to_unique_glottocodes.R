@@ -3,7 +3,7 @@ test_that("langage_level_df works as expected", {
 
     lldf <- reduce_ValueTable_to_unique_glottocodes(
         ValueTable = cldf$tables$ValueTable,
-        LangueageTable = cldf$tables$LanguageTable,
+        LanguageTable = cldf$tables$LanguageTable,
         method = "singular_least_missing_data"
     )
 
