@@ -15,7 +15,7 @@
 # method = "singular_least_missing_data"
 # merge_dialects = TRUE
 
-language_level_df <- function(ValueTable,
+reduce_ValueTable_to_unique_glottocodes <- function(ValueTable,
                               LanguageTable,
                               merge_dialects = TRUE,
                               LanguageTable2,
