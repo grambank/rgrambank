@@ -18,7 +18,7 @@
 # LanguageTable = cldf$tables$LanguageTable
 
 # method = "singular_least_missing_data"
-# merge_dialects = TRUE
+# merge_dialects = FALSE
 
 reduce_ValueTable_to_unique_glottocodes <- function(ValueTable,
                               LanguageTable,
@@ -100,6 +100,12 @@ if(!is.null("LanguageTable2")){
 
 
 }
+
+if(merge_dialects == FALSE){
+    LanguageTable <- LanguageTable %>%
+        dplyr::select(Language_ID = ID, Glottocode)
+
+    }
 
 
     ## MERGE FOR LEAST MISSING DATA
