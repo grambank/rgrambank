@@ -7,8 +7,7 @@
 #' @export
 
 language_level_df <- function(ValueTable, LanguageTable,
-                              method = c("singular_least_missing_data", "combine_random", "singular_random"),
-                              drop_question_marks = TRUE) {
+                              method = c("singular_least_missing_data", "combine_random", "singular_random")) {
 
     if (length(method) != 1 & !(method %in% c("singular_least_missing_data", "combine_random", "singular_random"))) {
         stop("Method of merging is not defined.")
