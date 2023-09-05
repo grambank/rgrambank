@@ -12,14 +12,19 @@
 # ValueTable <- readr::read_csv("https://github.com/cldf-datasets/wals/raw/master/cldf/values.csv")
 # LanguageTable <- readr::read_csv("https://github.com/cldf-datasets/wals/raw/master/cldf/languages.csv")
 # LanguageTable2 <-readr::read_csv("https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv")
+
+# cldf <- rcldf::cldf("tests/testthat/fixtures/testdata/StructureDataset-metadata.json")
+# ValueTable = cldf$tables$ValueTable
+# LanguageTable = cldf$tables$LanguageTable
+
 # method = "singular_least_missing_data"
 # merge_dialects = TRUE
 
 reduce_ValueTable_to_unique_glottocodes <- function(ValueTable,
                               LanguageTable,
                               merge_dialects = TRUE,
-                              LanguageTable2,
-                              method = c("singular_least_missing_data", "combine_random", "singular_random"),
+                              LanguageTable2 = NULL,
+                              method = c("singular_least_missing_data", "combine_random", "singular_random")
                               ) {
 
     if (!(method %in% c("singular_least_missing_data", "combine_random", "singular_random"))) {
@@ -37,7 +42,7 @@ if(merge_dialects == TRUE){
     if (
         all(!"Language_ID" %in% colnames(LanguageTable),
         !"Language_level_ID" %in% colnames(LanguageTable)) &
-        !exists(x = "LanguageTable2")
+        !is.null("LanguageTable2")
         ){
 
         stop("Not possible to merge dialects because LanguageTable does not have the columns 'Language_ID' or 'Language_level_ID' and no LanguageTable2 supplied.")
@@ -51,7 +56,7 @@ if(merge_dialects == TRUE){
 
 # The language level ID column is named different in different, CLDF datasets.
 
-if(!exists("LanguageTable2")){
+if(!is.null("LanguageTable2")){
         if (!("Language_level_ID" %in% colnames(LanguageTable))) {
             LanguageTable   <- LanguageTable %>%
                 dplyr::select(Language_ID = ID, Glottocode, Language_level_ID = Language_ID)
@@ -63,10 +68,10 @@ if(!exists("LanguageTable2")){
         }
 
     }else{
-        if (!("Language_level_ID" %in% colnames(LanguageTable2))) {
+        if (!("Language_level_ID" %in% colnames(LanguageTable2)) & "ID" %in% colnames(LanguageTable)) {
             LanguageTable   <- LanguageTable2 %>%
                 dplyr::select(Glottocode, Language_level_ID = Language_ID) %>%
-                right_join(LanguageTable, by = "Glottocode") %>%
+                dplyr::right_join(LanguageTable, by = "Glottocode") %>%
                 dplyr::select(Language_ID = ID, Glottocode, Language_level_ID)
 
         }
@@ -74,7 +79,7 @@ if(!exists("LanguageTable2")){
         if ("Language_level_ID" %in% colnames(LanguageTable2) & "ID" %in% colnames(LanguageTable)) {
             LanguageTable   <- LanguageTable2 %>%
                 dplyr::select(Glottocode, Language_level_ID) %>%
-                right_join(LanguageTable, by = "Glottocode") %>%
+                dplyr::right_join(LanguageTable, by = "Glottocode") %>%
                 dplyr::select(Language_ID = ID, Glottocode, Language_level_ID)
         }
 
