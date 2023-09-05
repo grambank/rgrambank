@@ -5,6 +5,10 @@
 #' @param merge_dialects logical. In the case of multiple dialects of the same language, if TRUE they are replaced by the glottocode of their language-parent and all but one is dropped as with other duplicate glottocodes.
 #' @param LanguageTable2 data-frame. If merge_dialects is TRUE and LanguageTable does not have the columns "Language_ID" or "Language_level_ID", then the function will need an additional LanguageTable with the necessary columns and it should be supplied here. Needs to minimally have the columns "Glottocode" and "Language_ID" or "Language_level_ID". Glottolog-cldf LanguageTable recommended.
 #' @param method character vector, choice between "singular_least_missing_data", "combine_random", "singular_random". combine_random = combine all datapoints for all the dialects/duplicates and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects/duplicates, singular_least_missing_data = choose the dialect/duplicate which has the most datapoints.
+#' @description
+#' This function takes a CLDF ValueTable and reduces it down to only entries with unique Glottocodes. If there are dialects of the same language, merge_dialects can be set to TRUE and then they are also treated as duplicates and reduced in the same manner as method specifies.
+#' @note
+#' Any non-missing data in ValueTable is counted as data, i.e. if there are "?"-Values they are treated the same as "1", "0" etc. If you want to treat them as missing, you need to replace them with NAs before applying the function.
 #' @return data-frame of ValueTable without duplicates
 #' @export
 #'
