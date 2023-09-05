@@ -7,7 +7,7 @@ test_that("langage_level_df works as expected", {
         method = "singular_least_missing_data"
     )
 
-    for (removed in c('munu1238', 'ngar1285', 'yawi1239')) {
-        expect_equal(nrow(subset(lldf, Language_ID == removed)), 0)
-    }
+    outcome <- lldf$Language_ID %>% unique() %>% length()
+    expected <- 5
+        expect_equal(outcome, expected)
 })
