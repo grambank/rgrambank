@@ -52,6 +52,11 @@ multiple_values_per_parameter <- ValueTable %>%
 
 
 if(multiple_values_per_parameter > 1){
+
+    if(!all(c("Value", "Frequency", "ID", "Code_ID", "Confidence", "Example_ID") %in% colnames(ValueTable))){
+        stop("There is more than one Value per Language_ID and Parameter_ID in ValueTable, but the columns Code_ID, ID, Value, Confidence, Frequency and Example_ID are not all there.")
+    }
+
     message("Found more than one Value per Language_ID and Parameter_ID. Collapsing, will unnest at the end. May take a little big longer.")
     ValueTable  <-   ValueTable %>%
         dplyr::group_by(Language_ID, Parameter_ID) %>%
