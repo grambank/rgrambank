@@ -15,6 +15,7 @@
 #'
 
 # ValueTable <- readr::read_csv("https://github.com/cldf-datasets/apics/raw/master/cldf/values.csv")
+# ValueTable <- readr::read_csv("https://github.com/cldf-datasets/wals/raw/master/cldf/values.csv")
 # LanguageTable <- readr::read_csv("https://github.com/cldf-datasets/wals/raw/master/cldf/languages.csv")
 # LanguageTable2 <-readr::read_csv("https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv")
 
@@ -40,6 +41,16 @@ reduce_ValueTable_to_unique_glottocodes <- function(ValueTable,
 
     if (!all(c('Language_ID', 'Parameter_ID', 'Value') %in% colnames(ValueTable))) {
         stop("Invalid table format - ValueTable needs to have columns Language_ID/Parameter_ID/Value")
+    }
+
+
+parameters_with_more_than_one_value <-   ValueTable %>%
+        dplyr::group_by(Language_ID, Parameter_ID) %>%
+        dplyr::summarise(n = n(), .groups = "drop") %>%
+        dplyr::filter(n > 1) %>% nrow()
+
+if(parameters_with_more_than_one_value != 0){
+    stop("ValueTable is of a kind that allows more than one Value per Parameter_ID and Language_ID, which is currently not supported in this function.")
     }
 
 ## Check if LanguageTables are able to be used for merging dialects (if merge_dialects == TRUE) and set-up LanguageTable for use later.
