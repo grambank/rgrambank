@@ -8,12 +8,13 @@
 #' @description
 #' This function takes a CLDF ValueTable and reduces it down to only entries with unique Glottocodes. If there are dialects of the same language, merge_dialects can be set to TRUE and then they are also treated as duplicates and reduced in the same manner as method specifies.
 #' @note
+#' There are cldf-datasets where a Language can have multiple values, for example in APiCS where there are multiple values possible per parameter. In APiCS, there is an extra column called "Freqnecy" which denotes how frequent the different values are in a given language. Currently, this function does not support such instances and would enforce one value per parameter which would not be correct.
 #' Any non-missing data in ValueTable is counted as data, i.e. if there are "?"-Values they are treated the same as "1", "0" etc. If you want to treat them as missing, you need to replace them with NAs before applying the function.
 #' @return data-frame of ValueTable without duplicates
 #' @export
 #'
 
-# ValueTable <- readr::read_csv("https://github.com/cldf-datasets/wals/raw/master/cldf/values.csv")
+# ValueTable <- readr::read_csv("https://github.com/cldf-datasets/apics/raw/master/cldf/values.csv")
 # LanguageTable <- readr::read_csv("https://github.com/cldf-datasets/wals/raw/master/cldf/languages.csv")
 # LanguageTable2 <-readr::read_csv("https://raw.githubusercontent.com/glottolog/glottolog-cldf/master/cldf/languages.csv")
 
