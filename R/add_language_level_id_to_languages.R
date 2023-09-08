@@ -9,7 +9,7 @@
 #' @return Data-frame with desired modifications.
 #' @export
 
-add_language_level_id_to_languages <- function(
+add_language_level_id_to_languages <- function(Table = NULL,
         rename_language_level_col = TRUE,
         add_language_level_ID_to_languages = TRUE){
 
