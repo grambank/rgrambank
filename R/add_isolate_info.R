@@ -14,7 +14,7 @@ add_isolate_info <- function(Table = NULL,
 
     if(all(!all(c("level", "Language_ID", "Family_ID", "Glottocode") %in% colnames(Table)),
            !all(c("level", "Language_level_ID", "Family_ID", "Glottocode") %in% colnames(Table)))){
-        stop("The Table needs to have all of these columns: level, Glottocode, Family_ID and Language_ID or Language_level_ID. If The current LanguageTable lacks these columns, consider using a combination of the LanguageTable and ValueTable of glottolog-cldf.")
+        stop("The Table needs to have all of these columns: level, Glottocode, Family_ID and Language_ID or Language_level_ID.")
     }
 
 
