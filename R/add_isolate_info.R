@@ -1,8 +1,8 @@
 #' Adds info about isolates to tables of languages with glottocodes.
 #'
 #' @param Table data-frame. Required columns: level, Family_ID, Glottocode and Language_ID or Language_level_ID.
-#' @param  add_isolate_column Add a column to indicate whether a language is an isolate, or if it's a dialect of an isolate.
-#' @param set_isolates_Family_ID_as choice between c("themselves", "missing") or another string, like "isolate". If set to 'themselves', the missing values for Family_ID for isolates is replaced with their glottocode, e.g. basq1248 gets the Family_ID basq1248. If 'missing' their Family_ID is set to NA. If any other string besides "themselves" or "missing", they will get that string as their Family_ID, e.g. "isolate"/"Isolates"/"Isolate" etc.
+#' @param add_isolate_column logical. If TRUE, a column is added called "Isolate" and isolate languages and their dialects are coded "yes".
+#' @param set_isolates_Family_ID_as characther vector. Choice between "themselves", "missing" or another string, like "isolate". If set to 'themselves', the missing values for Family_ID for isolates is replaced with their glottocode, e.g. basq1248 gets the Family_ID basq1248. If 'missing' their Family_ID is set to NA. If any other string besides "themselves" or "missing", they will get that string as their Family_ID, e.g. "isolate"/"Isolates"/"Isolate" etc.
 #' @return Data-frame with desired modifications.
 #' @note If The current LanguageTable lacks the required columns, consider using a combination of the LanguageTable and ValueTable of glottolog-cldf.
 #' @export
