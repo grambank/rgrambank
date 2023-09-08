@@ -13,9 +13,10 @@ add_language_level_id_to_languages <- function(Table = NULL,
         rename_language_level_col = TRUE,
         add_language_level_ID_to_languages = TRUE){
 
-    if(all(!all(c("Language_ID", "Glottocode") %in% colnames(Table)),
-           !all(c("Language_level_ID", "Glottocode") %in% colnames(Table)))){
-        stop("The Table needs to have all of these columns: Glottocode and Language_ID or Language_level_ID.")
+    if(!("Glottocode" %in% colnames(Table))&
+       !("Language_ID" %in% colnames(Table))|
+       !("Language_level_ID" %in% colnames(Table))){
+               stop("The Table needs to have all of these columns: Glottocode and Language_ID or Language_level_ID.")
     }
 
     if(rename_language_level_col == TRUE &
