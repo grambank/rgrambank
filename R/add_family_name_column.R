@@ -11,7 +11,7 @@
 add_family_name_column <- function(Table = NULL){
 
     if(!all(c("Family_ID", "Name", "Glottocode") %in% colnames(Table))){
-        stop("The Table needs to have all of these columns: Name, Glottocode and Family_ID. If The current LanguageTable lacks the required columns, consider using a combination of the LanguageTable and ValueTable of glottolog-cldf.")
+        stop("The Table needs to have all of these columns: Name, Glottocode and Family_ID.")
     }
 
     Table <- Table %>%
