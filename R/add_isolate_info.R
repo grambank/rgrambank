@@ -12,8 +12,11 @@ add_isolate_info <- function(Table = NULL,
                              set_isolates_family_as = "Isolate"
         ){
 
-    if(all(!all(c("level", "Language_ID", "Family_ID", "Glottocode") %in% colnames(Table)),
-           !all(c("level", "Language_level_ID", "Family_ID", "Glottocode") %in% colnames(Table)))){
+    if(!("level" %in% colnames(Table)) &
+       !("Family_ID" %in% colnames(Table))&
+       !("Glottocode" %in% colnames(Table))&
+       !("Language_ID" %in% colnames(Table))|
+       !("Language_level_ID" %in% colnames(Table))){
         stop("The Table needs to have all of these columns: level, Glottocode, Family_ID and Language_ID or Language_level_ID.")
     }
 
