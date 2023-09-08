@@ -9,7 +9,7 @@
 
 add_isolate_info <- function(Table = NULL,
                              add_isolate_column = TRUE,
-                             set_isolates_family_as = "Isolate"
+                             set_isolates_family_as = "isolate"
         ){
 
     if(!("level" %in% colnames(Table)) &
@@ -42,9 +42,9 @@ add_isolate_info <- function(Table = NULL,
         Table <- Table %>%
             dplyr::mutate(Family_ID = ifelse(is.na(Family_ID)|
                                                  Family_ID == "" & level == "language",
-                                             yes = "Isolate", no = Family_ID)) %>%
+                                             yes = "isolate", no = Family_ID)) %>%
             dplyr::mutate(Family_ID = ifelse(Family_ID == Language_level_ID & level == "dialect",
-                                             yes = "Isolate", no = Family_ID))
+                                             yes = "isolate", no = Family_ID))
 
     }
 
