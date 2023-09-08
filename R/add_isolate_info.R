@@ -2,14 +2,14 @@
 #'
 #' @param Table data-frame. Required columns: level, Family_ID, Glottocode and Language_ID or Language_level_ID.
 #' @param  add_isolate_column Add a column to indicate whether a language is an isolate, or if it's a dialect of an isolate.
-#' @param set_isolates_family_as choice between c("themselves", "Isolate", "missing"). If set to 'themselves', the missing values for Family_ID for isolates is replaced with their glottocode, e.g. basq1248 gets the Family_ID basq1248. If 'Isolate' their Family_ID is set to the string 'Isolate'.
+#' @param set_isolates_Family_ID_as choice between c("themselves", "missing") or another string, like "isolate". If set to 'themselves', the missing values for Family_ID for isolates is replaced with their glottocode, e.g. basq1248 gets the Family_ID basq1248. If 'missing' their Family_ID is set to NA. If any other string besides "themselves" or "missing", they will get that string as their Family_ID, e.g. "isolate"/"Isolates"/"Isolate" etc.
 #' @return Data-frame with desired modifications.
 #' @note If The current LanguageTable lacks the required columns, consider using a combination of the LanguageTable and ValueTable of glottolog-cldf.
 #' @export
 
 add_isolate_info <- function(Table = NULL,
                              add_isolate_column = TRUE,
-                             set_isolates_family_as = "isolate"
+                             set_isolates_Family_ID_as = c("themselves", "missing", "isolate")
         ){
 
     if(!("level" %in% colnames(Table)) &
@@ -30,7 +30,7 @@ add_isolate_info <- function(Table = NULL,
                                            "yes", "no"))
     }
 
-    if(set_isolates_family_as_themselves == "themselves"){
+    if(set_isolates_Family_ID_as == "themselves"){
         Table <- Table %>%
             dplyr::mutate(Family_ID = ifelse(is.na(Family_ID)|
                                                  Family_ID == "" & level == "language",
@@ -38,23 +38,27 @@ add_isolate_info <- function(Table = NULL,
 
     }
 
-    if(set_isolates_family_as_themselves == "Isolate"){
-        Table <- Table %>%
-            dplyr::mutate(Family_ID = ifelse(is.na(Family_ID)|
-                                                 Family_ID == "" & level == "language",
-                                             yes = "isolate", no = Family_ID)) %>%
-            dplyr::mutate(Family_ID = ifelse(Family_ID == Language_level_ID & level == "dialect",
-                                             yes = "isolate", no = Family_ID))
 
-    }
 
-    if(set_isolates_family_as_themselves == "missing"){
+    if(set_isolates_Family_ID_as == "missing"){
         Table <- Table %>%
             dplyr::mutate(Family_ID = ifelse(is.na(Family_ID)|
                                                  Family_ID == "" & level == "language",
                                              yes = NA, no = Family_ID)) %>%
             dplyr::mutate(Family_ID = ifelse(Family_ID == Language_level_ID & level == "dialect",
                                              yes = NA, no = Family_ID))
+
+    }
+
+
+    if(set_isolates_Family_ID_as != "themselves" &
+       set_isolates_Family_ID_as != "missing"){
+        Table <- Table %>%
+            dplyr::mutate(Family_ID = ifelse(is.na(Family_ID)|
+                                                 Family_ID == "" & level == "language",
+                                             yes = {{set_isolates_family_as}}, no = Family_ID)) %>%
+            dplyr::mutate(Family_ID = ifelse(Family_ID == Language_level_ID & level == "dialect",
+                                             yes = {{set_isolates_family_as}}, no = Family_ID))
 
     }
 
