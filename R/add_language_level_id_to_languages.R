@@ -15,7 +15,7 @@ add_language_level_id_to_languages <- function(Table = NULL,
 
     if(all(!all(c("Language_ID", "Glottocode") %in% colnames(Table)),
            !all(c("Language_level_ID", "Glottocode") %in% colnames(Table)))){
-        stop("The Table needs to have all of these columns: Glottocode and Language_ID or Language_level_ID. If The current LanguageTable lacks these columns, consider using a combination of the LanguageTable and ValueTable of glottolog-cldf.")
+        stop("The Table needs to have all of these columns: Glottocode and Language_ID or Language_level_ID.")
     }
 
     if(rename_language_level_col == TRUE &
@@ -28,9 +28,8 @@ add_language_level_id_to_languages <- function(Table = NULL,
        "Language_level_ID" %in% colnames(Table)&
        !("Language_ID" %in% colnames(Table))){
         Table <- Table %>%
-            dplyr::mutate(Language_level_ID = ifelse(is.na(Language_level_ID)|
-                                                         Language_level_ID == "",
-                                                     Glottocode, Language_level_ID))    }
+            dplyr::mutate(Language_level_ID = ifelse(
+                is.na(Language_ID) | Language_ID == "", Glottocode, Language_ID)) }
 
     if(add_language_level_ID_to_languages == TRUE &
        "Language_ID" %in% colnames(Table)&
