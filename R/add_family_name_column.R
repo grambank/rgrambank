@@ -30,14 +30,14 @@ add_family_name_column <- function(LanguageTable = NULL, LanguageTable2 = NULL){
     }
 
     LanguageTable <-  LanguageTable %>%
-        {if(!exists("LanguageTable2")) dplyr::full_join(x = ., LanguageTable2,
+        {if(exists("LanguageTable2")) dplyr::full_join(x = ., LanguageTable2,
                                                        by = c("Name", "Glottocode", "Family_ID")) else . } %>%
         dplyr::distinct(Family_ID) %>%
         dplyr::filter(!is.na(Family_ID)) %>%
         dplyr::filter(Family_ID != "") %>%
         dplyr::rename(Glottocode = Family_ID) %>%
         dplyr::inner_join(LanguageTable, by = "Glottocode") %>%
-        {if(!exists("LanguageTable2")) dplyr::full_join(x = ., LanguageTable2,
+        {if(exists("LanguageTable2")) dplyr::full_join(x = ., LanguageTable2,
                                                 by = c("Name", "Glottocode", "Family_ID")) else . } %>%
         dplyr::select(Family_ID = Glottocode, Family_name = Name) %>%
         dplyr::distinct(Family_ID, Family_name) %>%
