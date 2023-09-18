@@ -13,7 +13,7 @@
 
 #LanguageTable2 <- read_tsv("tests/testthat/fixtures/cldf_wide_df_glottolog_4.8.tsv")
 
-add_family_name_column <- function(LanguageTable = NULL, LanguageTable2 = NULL){
+add_family_name_column <- function(LanguageTable = NULL, LanguageTable2){
     if(!all(c("Family_ID", "Name", "Glottocode") %in% colnames(LanguageTable))){
         stop("LanguageTable needs to have all of these columns: Name, Glottocode and Family_ID.")
     }
@@ -45,8 +45,9 @@ add_family_name_column <- function(LanguageTable = NULL, LanguageTable2 = NULL){
 
     if(NA %in% LanguageTable$Family_name)(
 
-        warning("There was no Family_name found for\n",         LanguageTable %>%
-                    filter(is.na(Family_name)) %>%
+        warning("There was no Family_name found for\n",
+                LanguageTable %>%
+                    dplyr::filter(is.na(Family_name)) %>%
                     dplyr::select(Name), ".\nThis may be because they are isolates.\n")
 
     )
