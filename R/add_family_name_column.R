@@ -43,7 +43,13 @@ add_family_name_column <- function(LanguageTable = NULL, LanguageTable2 = NULL){
         dplyr::distinct(Family_ID, Family_name) %>%
         dplyr::right_join(LanguageTable, by = "Family_ID")
 
-    LanguageTable
+    if(NA %in% LanguageTable$Family_name)(
+
+        warning("There was no Family_name found for\n",         LanguageTable %>%
+                    filter(is.na(Family_name)) %>%
+                    dplyr::select(Name), ".\nThis may be because they are isolates.\n")
+
+    )
 
     LanguageTable
 }
