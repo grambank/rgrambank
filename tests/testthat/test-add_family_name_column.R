@@ -11,3 +11,17 @@ test_that("add_family_name_column works as expected", {
 
     expect_equal(outcome$Family_name, expectation)
 })
+
+
+test_that("add_family_name_column works as expected", {
+
+    LanguageTable <- readr::read_csv("fixtures/testdata/languages.csv", show_col_types = F) %>%
+        dplyr::rename(Family_ID = Family_level_ID) %>%
+        dplyr::select(-Family_name)
+
+    outcome <-  add_family_name_column(LanguageTable = LanguageTable)
+
+    expectation <-  c(NA, NA, NA, NA, NA ,NA, NA, NA) %>% as.character()
+
+    expect_equal(outcome$Family_name, expectation)
+})
