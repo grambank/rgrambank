@@ -13,31 +13,31 @@
 
 #LanguageTable2 <- read_tsv("tests/testthat/fixtures/cldf_wide_df_glottolog_4.8.tsv")
 
-add_family_name_column <- function(LanguageTable = NULL, LanguageTable2){
+add_family_name_column <- function(LanguageTable = NULL, LanguageTable2 = NULL){
     if(!all(c("Family_ID", "Name", "Glottocode") %in% colnames(LanguageTable))){
         stop("LanguageTable needs to have all of these columns: Name, Glottocode and Family_ID.")
     }
 
-    if(!exists("LanguageTable2") &
+    if(!is.null(LanguageTable2) &
        !all(c("Family_ID", "Name", "Glottocode") %in% colnames(LanguageTable))){
         stop("LanguageTable2 needs to have all of these columns: Name, Glottocode and Family_ID.")
     }
 
 
-    if(exists("LanguageTable2")){
+    if(!is.null(LanguageTable2)){
         LanguageTable2 <- LanguageTable2 %>%
             dplyr::select(Family_ID, Name, Glottocode)
     }
 
     LanguageTable <-  LanguageTable %>%
-        {if(exists("LanguageTable2")) dplyr::full_join(x = ., LanguageTable2,
+        {if(!is.null(LanguageTable2)) dplyr::full_join(x = ., LanguageTable2,
                                                        by = c("Name", "Glottocode", "Family_ID")) else . } %>%
         dplyr::distinct(Family_ID) %>%
         dplyr::filter(!is.na(Family_ID)) %>%
         dplyr::filter(Family_ID != "") %>%
         dplyr::rename(Glottocode = Family_ID) %>%
         dplyr::inner_join(LanguageTable, by = "Glottocode") %>%
-        {if(exists("LanguageTable2")) dplyr::full_join(x = ., LanguageTable2,
+        {if(!is.null(LanguageTable2)) dplyr::full_join(x = ., LanguageTable2,
                                                 by = c("Name", "Glottocode", "Family_ID")) else . } %>%
         dplyr::select(Family_ID = Glottocode, Family_name = Name) %>%
         dplyr::distinct(Family_ID, Family_name) %>%
