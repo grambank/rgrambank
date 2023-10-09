@@ -1,4 +1,3 @@
-
 test_that("get_shared_features", {
     cldf <- rcldf::cldf("fixtures/testdata/StructureDataset-metadata.json")
 
