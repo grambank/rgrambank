@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Simon", "Greenhill", , "simon@simon.net.nz", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7832-6156")),
-person("Hedvig", "Skirgård", , "hedvig.public@gmail.com", role = c("aut", "cre"),
+person("Hedvig", "Skirgård", "hedvig.public@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7748-2381"))
 Description: Functions connected to analysis using the Grambank-dataset, such as binarising multistate Grambank features, computing theoretical metrics, make wide and more.
 License: Apache License (>= 2)
