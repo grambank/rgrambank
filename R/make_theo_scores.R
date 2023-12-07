@@ -20,7 +20,7 @@ make_theo_scores <- function(ValueTable, ParameterTable){
     # marking
     ValueTable <- ValueTable %>%
         dplyr::inner_join(ParameterTable , by = "Parameter_ID") %>%
-        dplyr::mutate(Value = is.numeric(Value))  # drop out ? marking and makes it possible to sum, mean etc
+        dplyr::mutate(Value = as.numeric(Value))  # drop out ? marking and makes it possible to sum, mean etc
 
     #fusion counts
     lg_df_for_fusion_count <- ValueTable %>%
