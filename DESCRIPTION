@@ -1,11 +1,9 @@
 Package: rgrambank
 Title: Package for analysing grambank
 Version: 0.0.0.9000
-Authors@R: c(
+Authors@R: 
     person("Simon", "Greenhill", , "simon@simon.net.nz", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-7832-6156")),
-    person("Hedvig", "Skirgård", , "hedvig.public@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-7748-2381")))
+           comment = c(ORCID = "0000-0001-7832-6156"))
 Description: Functions connected to analysis using the Grambank-dataset, such as binarising multistate Grambank features, computing theoretical metrics, make wide and more.
 License: Apache License (>= 2)
 Encoding: UTF-8
