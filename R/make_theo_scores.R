@@ -20,12 +20,13 @@ make_theo_scores <- function(ValueTable, ParameterTable){
     # marking
     ValueTable <- ValueTable %>%
         dplyr::inner_join(ParameterTable , by = "Parameter_ID") %>%
+        dplyr::filter(!is.na(Value)) %>%
+        dplyr::filter(Value != "?") %>% 
         dplyr::mutate(Value = as.numeric(Value))  # drop out ? marking and makes it possible to sum, mean etc
 
     #fusion counts
     lg_df_for_fusion_count <- ValueTable %>%
         dplyr::filter(Fusion != 0) %>%
-        dplyr::filter(!is.na(Value)) %>%
         dplyr::mutate(Value_weighted = ifelse(Fusion == 0.5 & Value == 1, 0.5, Value )) %>%
         # replacing all instances of 1 for a feature that is weighted to 0.5 bound morph points to 0.5
         dplyr::group_by(Language_ID) %>%
@@ -34,7 +35,6 @@ make_theo_scores <- function(ValueTable, ParameterTable){
     ##Flexivity scores
     lg_df_for_flex_count <- ValueTable  %>%
         dplyr::filter(!is.na(Flexivity)) %>%
-        dplyr::filter(!is.na(Value)) %>%
         # reversing the Values of the features that have a score of 0
         dplyr::mutate(Value_weighted = ifelse(Flexivity == 0, abs(Value-1), Value)) %>%
         dplyr::group_by(Language_ID) %>%
@@ -43,7 +43,6 @@ make_theo_scores <- function(ValueTable, ParameterTable){
     ##`locus of marking`s
     lg_df_for_HM_DM_count <- ValueTable %>%
         dplyr::filter(!is.na(Locus_of_Marking)) %>%
-        dplyr::filter(!is.na(Value)) %>%
         # reversing the Values of the features that have a score of 0
         dplyr::mutate(Value_weighted = ifelse(Locus_of_Marking == 0, abs(Value-1), Value)) %>%
         dplyr::group_by(Language_ID) %>%
@@ -52,7 +51,6 @@ make_theo_scores <- function(ValueTable, ParameterTable){
     ##Gender_or_Noun_Class scores
     lg_df_for_gender_nc_count <- ValueTable  %>%
         dplyr::filter(!is.na(Gender_or_Noun_Class)) %>%
-        dplyr::filter(!is.na(Value)) %>%
         # reversing the Values of the features that have a score of 0
         dplyr::mutate(Value_weighted = ifelse(Gender_or_Noun_Class == 0, abs(Value-1), Value)) %>%
         dplyr::group_by(Language_ID) %>%
@@ -61,7 +59,6 @@ make_theo_scores <- function(ValueTable, ParameterTable){
      ##OV_VO scores
      lg_df_for_OV_VO_count <- ValueTable  %>%
          dplyr::filter(!is.na(Word_Order)) %>%
-         dplyr::filter(!is.na(Value)) %>%
          # reversing the Values of the features that refer to free-standing markers
          dplyr::mutate(Value_weighted = ifelse(Word_Order == 0, abs(Value-1), Value)) %>%
          dplyr::group_by(Language_ID) %>%
