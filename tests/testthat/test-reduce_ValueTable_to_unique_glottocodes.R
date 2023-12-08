@@ -1,4 +1,4 @@
-test_that("langage_level_df works as expected", {
+test_that("reduce_ValueTable_to_unique_glottocodes works as expected", {
     cldf <- rcldf::cldf("fixtures/testdata/StructureDataset-metadata.json")
 
     lldf <- reduce_ValueTable_to_unique_glottocodes(
