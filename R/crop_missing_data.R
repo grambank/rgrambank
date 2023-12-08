@@ -32,7 +32,7 @@ if(verbose == TRUE){
                format(n_lgs, big.mark = ","),
                " languages and ",
                n_feats,
-               " features."))
+               " features.\n"))
 }
 
 ValueTable_cropped <- ValueTable %>%
@@ -56,7 +56,7 @@ if(verbose == TRUE){
     cat(paste0("After cropping, the data-set has ",
                round(1 - coverage_after_cropping ,
                      digits = 2)*100,
-               "% missing data, ", format(n_lgs_cropped, big.mark = ","), " languages and ", n_feats_cropped, " features."))
+               "% missing data, ", format(n_lgs_cropped, big.mark = ","), " languages and ", n_feats_cropped, " features.\n"))
 }
 
 ValueTable_cropped
