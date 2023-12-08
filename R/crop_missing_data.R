@@ -1,6 +1,6 @@
 #' Crops ValueTables for features and languages with a large amount of missing data.
 #'
-#' @param ValueTable Data-frame of the CLDF-type VaueTable, i.e. a long data-table with at least columns "Parameter_ID", "Value" and "Language_ID". This ValueTable can be the product of rgrambank::binarise and/or rgrambank::language_level_df.
+#' @param ValueTable Data-frame of the CLDF-type VaueTable, i.e. a long data-table with at least columns "Parameter_ID", "Value" and "Language_ID". This ValueTable can be the product of rgrambank::binarise and/or rgrambank::reduce_ValueTable_to_unique_glottocodes.
 #' @param cut_off_features Integer between 0 and 1 representing the cut-off for missing data for features. 0.75 means that features that are filled out for less than 75% of the possible languages are dropped from the result.
 #' @param cut_off_languages Integer between 0 and 1 representing the cut-off for missing data for languages. 0.75 means that features that are filled out for less than 75% of the possible features are dropped from the result.
 #' @param turn_question_mark_into_NA Logical. If TRUE Value cells consisting of "?" are treated the same as missing data.
