@@ -41,7 +41,7 @@ df.wide <- as.grambank.wide(grambank$tables$ValueTable)
 ```{r}
 library(dplyr)
 grambank <- load_grambank()
-glottolog <- load_grambank()
+glottolog <- load_glottolog()
 
 languages <- grambank$tables$LanguageTable %>%
     left_join(glottolog$tables$LanguageTable)
@@ -66,7 +66,7 @@ library(rgrambank)
 library(ggplot2)
 
 grambank <- load_grambank()
-glottolog <- load_grambank()
+glottolog <- load_glottolog()
 
 languages <- glottolog$tables$LanguageTable %>%
     right_join(theo, join_by(ID==Language_ID))
