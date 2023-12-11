@@ -1,17 +1,18 @@
 #' Computes scores based on theoretical linguistics on grambank data.
 #'
-#' @param ValueTable a data-frame, long format, of Grambank values
+#' @param ValueTable_binary a data-frame, long format, of Grambank values - binarised. Use rgrambank::binarise().
 #' @param ParameterTable_binary data-frame of Grambank ParameterTable - binarised. Use rgrambank::make_binary_ParameterTable.
 #' @param missing_cut_off numeric value between 0 and 1 representing cut-off for how much coverage each language should have. For each set of features for the theoretical scores, if a language falls under the threshold, it is not considered for the theoretical score. 0.75 means that languages with 75% of feature values non-missing for that set of features are included, less than 75% coverage are dropped.
 #' @return A data-frame with theoretical scores per language.
 #' @export
-make_theo_scores <- function(ValueTable,
-                             ParameterTable,
+make_theo_scores <- function(ValueTable_binary,
+                             ParameterTable_binary,
                              missing_cut_off = 0.75){
 
 #    grambank_cldf_object <- rcldf::cldf(mdpath = "https://zenodo.org/records/7844558/files/grambank/grambank-v1.0.3.zip",load_bib = FALSE)
 #   source("R/make_binary_ParameterTable.R")
-#    ValueTable <- grambank_cldf_object $tables$ValueTable
+#   source("R/binarise.R")
+#    ValueTable <- grambank_cldf_object $tables$ValueTable %>% binarise()
 #    ParameterTable <- grambank_cldf_object $tables$ParameterTable %>% make_binary_ParameterTable()
 
     #read in sheet with scores for whether a feature denotes fusion
@@ -120,7 +121,7 @@ make_theo_scores <- function(ValueTable,
         dplyr::full_join(lg_df_for_gender_nc_count, by = "Language_ID") %>%
         dplyr::full_join(lg_df_for_HM_DM_count, by = "Language_ID") %>%
         dplyr::full_join(lg_df_for_fusion_count, by = "Language_ID") %>%
-        dplyr::full_join(lg_df_informativity_score, by = "Language_ID")
+        dplyr::full_join(lg_df_informativity_score, by = "Language_ID") %>%
 }
 
 
