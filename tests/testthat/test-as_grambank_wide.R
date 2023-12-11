@@ -1,6 +1,6 @@
-test_that("as.grambank.wide", {
+test_that("as_grambank_wide", {
     gb <- rcldf::cldf("fixtures/testdata/StructureDataset-metadata.json")
-    values <- as.grambank.wide(gb$tables$ValueTable)
+    values <- as_grambank_wide(gb$tables$ValueTable)
 
     params <- gb$tables$ValueTable %>% dplyr::filter(Language_ID == 'gamb1251') %>% dplyr::pull("Parameter_ID")
 
@@ -19,14 +19,14 @@ test_that("as.grambank.wide", {
 
     # check both methods work
     expect_equal(
-        gb$tables$ValueTable %>% as.grambank.wide(),
-        as.grambank.wide(gb$tables$ValueTable)
+        gb$tables$ValueTable %>% as_grambank_wide(),
+        as_grambank_wide(gb$tables$ValueTable)
     )
 
 })
 
 
-test_that("as.grambank.wide fails on incorrect formats", {
-    expect_error(as.grambank.wide('not a table'), "'ValueTable' must be a dataframe.")
-    expect_error(as.grambank.wide(data.frame()), "Invalid table format")
+test_that("as_grambank_wide fails on incorrect formats", {
+    expect_error(as_grambank_wide('not a table'), "'ValueTable' must be a dataframe.")
+    expect_error(as_grambank_wide(data.frame()), "Invalid table format")
 })

@@ -4,10 +4,10 @@
 #' @export
 #' @examples
 #' gb <- cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
-#' values <- as.grambank.wide(gb$tables$ValueTable)
+#' values <- as_grambank_wide(gb$tables$ValueTable)
 #' # or:
-#' values <- gb$tables$ValueTable %>% as.grambank.wide()
-as.grambank.wide <- function(ValueTable = NULL) {
+#' values <- gb$tables$ValueTable %>% as_grambank_wide()
+as_grambank_wide <- function(ValueTable = NULL) {
     if (!inherits(ValueTable, "data.frame")) stop("'ValueTable' must be a dataframe.")
 
     if (!all(c('Language_ID', 'Parameter_ID', 'Value') %in% colnames(ValueTable))) {
