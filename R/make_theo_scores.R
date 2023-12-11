@@ -121,7 +121,7 @@ make_theo_scores <- function(ValueTable_binary,
         dplyr::full_join(lg_df_for_gender_nc_count, by = "Language_ID") %>%
         dplyr::full_join(lg_df_for_HM_DM_count, by = "Language_ID") %>%
         dplyr::full_join(lg_df_for_fusion_count, by = "Language_ID") %>%
-        dplyr::full_join(lg_df_informativity_score, by = "Language_ID") %>%
+        dplyr::full_join(lg_df_informativity_score, by = "Language_ID")
 }
 
 
