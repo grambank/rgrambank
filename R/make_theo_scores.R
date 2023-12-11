@@ -2,7 +2,7 @@
 #'
 #' @param ValueTable a data-frame, long format, of Grambank values
 #' @param ParameterTable_binary data-frame of Grambank ParameterTable - binarised. Use rgrambank::make_binary_ParameterTable.
-#' @param missing_cut_off numeric value between 0 and 1 representing cut-off for how much coverage each language should have. For each set of features for the theoretical scores, if a language falls under the threshold, it is not considered for the theoretical score.
+#' @param missing_cut_off numeric value between 0 and 1 representing cut-off for how much coverage each language should have. For each set of features for the theoretical scores, if a language falls under the threshold, it is not considered for the theoretical score. 0.75 means that languages with 75% of feature values non-missing for that set of features are included, less than 75% coverage are dropped.
 #' @return A data-frame with theoretical scores per language.
 #' @export
 make_theo_scores <- function(ValueTable,
