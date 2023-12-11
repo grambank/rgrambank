@@ -47,7 +47,7 @@ make_theo_scores <- function(ValueTable,
         dplyr::mutate(Value_weighted = ifelse(Fusion == 0.5 & Value == 1, 0.5, Value )) %>%
         # replacing all instances of 1 for a feature that is weighted to 0.5 bound morph points to 0.5
         dplyr::group_by(Language_ID) %>%
-        dplyr::summarise(mean_morph = mean(Value_weighted))
+        dplyr::summarise(Fusion = mean(Value_weighted))
 
     ##Flexivity scores
     lg_df_for_flex_count <- ValueTable  %>%
