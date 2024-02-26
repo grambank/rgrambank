@@ -1,19 +1,29 @@
 #' Computes scores based on theoretical linguistics on grambank data.
 #'
-#' @param ValueTable_binary a data-frame, long format, of Grambank values - binarised. Use rgrambank::binarise().
-#' @param ParameterTable_binary data-frame of Grambank ParameterTable - binarised. Use rgrambank::make_binary_ParameterTable.
+#' @param ValueTable data-frame, long format, of Grambank values. If not already binarised, rgrambank::binarise() will be applied.
+#' @param ParameterTable data-frame of Grambank ParameterTable. . If not already binarised, rgrambank::make_binary_ParameterTable will be applied.
 #' @param missing_cut_off numeric value between 0 and 1 representing cut-off for how much coverage each language should have, for each feature set. For each set of features for the theoretical scores, if a language falls under the threshold, it is not considered for the theoretical score (but may be considered for other sets). 0.75 means that languages with 75% of feature values non-missing for that set of features are included, less than 75% coverage are dropped.
 #' @return A data-frame with theoretical scores per language.
 #' @export
-make_theo_scores <- function(ValueTable_binary,
-                             ParameterTable_binary,
+make_theo_scores <- function(ValueTable,
+                             ParameterTable,
                              missing_cut_off = 0.75){
 
 #    grambank_cldf_object <- rcldf::cldf(mdpath = "https://zenodo.org/records/7844558/files/grambank/grambank-v1.0.3.zip",load_bib = FALSE)
 #   source("R/make_binary_ParameterTable.R")
 #   source("R/binarise.R")
-#    ValueTable <- grambank_cldf_object $tables$ValueTable %>% binarise()
-#    ParameterTable <- grambank_cldf_object $tables$ParameterTable %>% make_binary_ParameterTable()
+#   library(tidyverse)
+
+#ValueTable <-   grambank_cldf_object$tables$ValueTable
+#ParameterTable <-   grambank_cldf_object$tables$ParameterTable
+
+if("GB203b" %in% ValueTable$Parameter_ID){
+        ValueTable <- ValueTable %>% rgrambank::binarise()
+}
+
+if("GB203b" %in% ParameterTable$ID){
+    ParameterTable <- ParameterTable %>% rgrambank::make_binary_ParameterTable()
+}
 
     #read in sheet with scores for whether a feature denotes fusion
     ParameterTable <- ParameterTable %>%
