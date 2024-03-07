@@ -12,8 +12,10 @@ License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Depends:
+    dplyr
+    magrittr
 Imports:
-    dplyr,
     dbplyr,
     RSQLite,
     DBI,
