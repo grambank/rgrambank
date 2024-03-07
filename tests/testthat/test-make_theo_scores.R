@@ -1,6 +1,6 @@
 test_that("theo scores work as expected", {
-    values <- read.delim("../tests/testthat/fixtures/values_theoretical.csv", sep = ",")
-    params <- read.delim("../tests/testthat/fixtures/testdata/parameters.csv", sep = ",")
+    values <- read.delim("fixtures/values_theoretical.csv", sep = ",")
+    params <- read.delim("fixtures/testdata/parameters.csv", sep = ",")
     theoretical <- make_theo_scores(values, params) %>%
         dplyr::filter(Language_ID == "anci1242")
 

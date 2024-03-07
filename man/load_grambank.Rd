@@ -5,7 +5,8 @@
 \title{Loads grambank data (v1.0.3)}
 \usage{
 load_grambank(
-  url = "https://zenodo.org/record/7844558/files/grambank/grambank-v1.0.3.zip?download=1"
+  url =
+    "https://zenodo.org/records/7844558/files/grambank/grambank-v1.0.3.zip?download=1"
 )
 }
 \value{

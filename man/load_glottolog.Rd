@@ -6,7 +6,7 @@
 \usage{
 load_glottolog(
   url =
-    "https://zenodo.org/record/8131091/files/glottolog/glottolog-cldf-v4.8.zip?download=1"
+    "https://zenodo.org/records/8131091/files/glottolog/glottolog-cldf-v4.8.zip?download=1"
 )
 }
 \value{
