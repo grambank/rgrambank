@@ -1,3 +1,5 @@
 ^LICENSE\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.git/.*
+^\.git/fsmonitor--daemon\.ipc
