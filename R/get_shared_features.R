@@ -8,8 +8,15 @@
 #'  - `identical` (the number of identical features for this pair)
 #'  - `features` (a dataframe of the features)
 #' @export
+#' @importFrom dplyr filter
+#' @importFrom dplyr select
+#' @importFrom dplyr mutate
+#' @importFrom dplyr left_join
+#' @importFrom dplyr join_by
+#' @importFrom tidyr spread
+#' @importFrom tidyr drop_na
 #' @examples
-#' gb <- cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
+#' gb <- rcldf::cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
 #  s <- get_shared_features(gb, 'stan1293', 'murr1258')
 #  print(sprintf("English and Murrinpatha shared %d/%d features", s$identical, s$compared))
 get_shared_features <- function(gb, language1, language2) {

@@ -3,8 +3,9 @@
 #' @param gb A grambank CLDF object
 #' @param glottocode The glottocode of the relevant clade
 #' @return data-frame of ValueTable without duplicates
+#' @importFrom dplyr filter
 #' @examples
-#' gb <- cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
+#' gb <- rcldf::cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
 #  get_values_for_clade(gb, 'west2435')
 #' @export
 get_values_for_clade <- function(gb, glottocode) {

@@ -9,6 +9,9 @@ load_grambank(
     "https://zenodo.org/records/7844558/files/grambank/grambank-v1.0.3.zip?download=1"
 )
 }
+\arguments{
+\item{url}{string. The url to download.}
+}
 \value{
 An rcldf::cldf object
 }

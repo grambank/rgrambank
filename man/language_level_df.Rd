@@ -17,6 +17,8 @@ language_level_df(
 \item{LanguageTable}{data-frame of a cldf LanguageTable. Needs to have columns Glottocode and Language_ID or Language_level_ID.}
 
 \item{method}{character vector, choice between "singular_least_missing_data", "combine_random", "singular_random". combine_random = combine all datapoints for all the dialects/duplicates and if there is more than one datapoint for a given feature/word/variable choose randomly between them, singular_random = choose randomly between the dialects/duplicates, singular_least_missing_data = choose the dialect/duplicate which has the most datapoints.}
+
+\item{drop_question_marks}{boolean. Remove values assigned to uncertain ("?")}
 }
 \value{
 data-frame of ValueTable without duplicates

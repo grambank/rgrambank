@@ -9,6 +9,9 @@ load_glottolog(
     "https://zenodo.org/records/8131091/files/glottolog/glottolog-cldf-v4.8.zip?download=1"
 )
 }
+\arguments{
+\item{url}{string. The url to download.}
+}
 \value{
 An rcldf::cldf object
 }

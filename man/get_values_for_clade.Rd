@@ -18,5 +18,5 @@ data-frame of ValueTable without duplicates
 Returns a dataframe of values for a given clade
 }
 \examples{
-gb <- cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
+gb <- rcldf::cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
 }

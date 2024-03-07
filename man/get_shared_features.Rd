@@ -25,5 +25,5 @@ a list of:
 Calculates which features are shared between two languages
 }
 \examples{
-gb <- cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
+gb <- rcldf::cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
 }

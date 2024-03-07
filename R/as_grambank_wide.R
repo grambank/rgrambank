@@ -1,9 +1,10 @@
 #' Extract a wide dataframe from a grambank value table
 #' @param ValueTable a ValueTable dataframe containing the columns Language_ID, Parameter_ID, and Value
 #' @return a wide dataframe.
+#' @importFrom dplyr %>%
 #' @export
 #' @examples
-#' gb <- cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
+#' gb <- rcldf::cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
 #' values <- as_grambank_wide(gb$tables$ValueTable)
 #' # or:
 #' values <- gb$tables$ValueTable %>% as_grambank_wide()
@@ -15,6 +16,6 @@ as_grambank_wide <- function(ValueTable = NULL) {
     }
 
     ValueTable %>%
-        dplyr::select(Language_ID, Parameter_ID, Value) %>%
-        tidyr::spread(key = Parameter_ID, value = Value, drop = FALSE)
+        dplyr::select("Language_ID", "Parameter_ID", "Value") %>%
+        tidyr::spread(key = "Parameter_ID", value = "Value", drop = FALSE)
 }

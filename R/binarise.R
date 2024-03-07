@@ -89,13 +89,9 @@ binarise <- function(ValueTable = NULL,
     if (keep_raw_binary == FALSE) {
         ValueTable <- ValueTable %>%
             dplyr::filter(!(Parameter_ID %in% binary_parameters))
-
-    }
-
-    if (keep_raw_binary == TRUE) {
+    } else {
         ValueTable_raw_binary <- ValueTable %>%
             dplyr::filter(Parameter_ID %in% binary_parameters)
-
     }
 
     # BINARISING MULTISTATE FEATURES
@@ -114,13 +110,15 @@ binarise <- function(ValueTable = NULL,
 
     if (keep_raw_binary == TRUE) {
         ValueTable <- ValueTable %>%
-            dplyr::anti_join(dplyr::select(ValueTable_raw_binary,
-                                           Language_ID, Parameter_ID),
-                             by = c("Language_ID", "Parameter_ID")) %>%
-            dplyr::full_join(ValueTable_raw_binary, by = c("ID", "Language_ID", "Parameter_ID", "Value", "Code_ID", "Comment", "Source", "Source_comment", "Coders"))
+            dplyr::anti_join(
+                dplyr::select(ValueTable_raw_binary, Language_ID, Parameter_ID),
+                     by = c("Language_ID", "Parameter_ID")) %>%
+            dplyr::full_join(
+                ValueTable_raw_binary,
+                by = c("ID", "Language_ID", "Parameter_ID", "Value", "Code_ID", "Comment", "Source", "Source_comment", "Coders"))
 
     }
-        if(drop_multistate == TRUE) {
+    if (drop_multistate == TRUE) {
         ValueTable <- ValueTable %>%
             dplyr::filter(!(Parameter_ID %in% multistate_parameters))
         }

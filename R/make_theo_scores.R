@@ -3,12 +3,13 @@
 #' @param ValueTable a data-frame, long format, of Grambank values
 #' @param ParameterTable data-frame of Grambank ParameterTable. If there is problems reading in the csv-file into R, see rcldf::cldf().
 #' @return A data-frame with theoretical scores per language.
+#' @importFrom dplyr %>%
 #' @export
 make_theo_scores <- function(ValueTable, ParameterTable){
 
     #read in sheet with scores for whether a feature denotes fusion
     ParameterTable <- ParameterTable %>%
-        dplyr::select(Parameter_ID = ID, Fusion = Boundness, Informativity, Locus_of_Marking, Word_Order, Gender_or_Noun_Class, Flexivity) %>%
+        dplyr::select("Parameter_ID" = "ID", "Fusion" = "Boundness", "Informativity", "Locus_of_Marking", "Word_Order", "Gender_or_Noun_Class", "Flexivity") %>%
         dplyr::mutate(Fusion = as.numeric(Fusion)) %>%
         dplyr::mutate(Gender_or_Noun_Class = as.numeric(Gender_or_Noun_Class)) %>%
         dplyr::mutate(Flexivity = as.numeric(Flexivity)) %>%

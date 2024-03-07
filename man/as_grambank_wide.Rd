@@ -16,7 +16,7 @@ a wide dataframe.
 Extract a wide dataframe from a grambank value table
 }
 \examples{
-gb <- cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
+gb <- rcldf::cldf(system.file("tests/testthat/fixtures/testdata/", "StructureDataset-metadata.json", package = "rgrambank"))
 values <- as_grambank_wide(gb$tables$ValueTable)
 # or:
 values <- gb$tables$ValueTable \%>\% as_grambank_wide()
